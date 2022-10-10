@@ -1,9 +1,7 @@
 import React from "react";
 
-const App = () => {
-  <div>
-    <h1>App</h1>
-  </div>;
-};
+function App(props) {
+  return <h1>Stock Market Exchange App</h1>;
+}
 
 export default App;
