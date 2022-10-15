@@ -1,15 +1,22 @@
 import "./NavBarStyle.css"
+import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
 export default function NavBar() {
     return <nav className="nav">
-        <a href="/" className="site_title">Stock Market Exchange App</a>
+        <Link to="/" className="site_title">Stock Market Exchange App</Link>
         <ul>
-            <li className="active">
-                <a href="/charts">Charts</a>
-            </li>
-            <li>
-                <a href="/news">News</a>
-            </li>
+            <CustomTab to="/charts">Charts</CustomTab>
+            <CustomTab to="/news">News</CustomTab>
         </ul>
     </nav>
+}
+
+function CustomTab({to, children, ...props}) {
+    const resolvedPath = useResolvedPath(to);
+    const isActive = useMatch({path: resolvedPath.pathname, end: true})
+    return (
+        <li className={isActive ? "active" : ""}>
+            <Link to={to} {...props}>{children}</Link>
+        </li>
+    )
 }

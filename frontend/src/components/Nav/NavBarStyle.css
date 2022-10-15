@@ -7,7 +7,7 @@ body {
 }
 
 .nav {
-    background-color: #73c2fb;
+    background-color: #0197f6;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -24,7 +24,7 @@ body {
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 1.25rem 0.25rem;
+    padding: 1.25rem 1.5rem;
 }
 
 .nav ul {
@@ -33,7 +33,7 @@ body {
     margin: 0;
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 0;
     font-family: inherit;
     font: inherit;
     font-size: 1.25rem;
@@ -46,13 +46,13 @@ body {
 }
 
 .site_title:active{
-    background-color: #0197f6;
+    background-color: #1560bd;
+}
+
+.nav li.active {
+    background-color: #1560bd;
 }
 
 .nav li:hover {
-    background-color: #89cff0;
-}
-
-.nav li:active {
-    background-color: #0197f6;
+    background-color: #26619c;
 }
