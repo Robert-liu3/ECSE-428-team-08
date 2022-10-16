@@ -1,17 +1,22 @@
-import React from "react";
-import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
-import stonks from "./images/stonks.png";
+import NavBar from './components/Nav/NavBar.js'
+import Welcome from './components/Welcome/Welcome.js'
+import Charts from './components/Chart/Chart.js'
+import News from './components/News/News.js'
+import './components/site_style.css'
+import { Route, Routes } from 'react-router-dom'
 
 function App(props) {
   return (
-    <Container maxWidth="lg">
-      <AppBar position="static" color="inherit">
-        <Typography variant="h2" align="center">
-          Stock Market Exchange App
-        </Typography>
-        <img src={stonks} alt="stonks" height="400" />
-      </AppBar>
-    </Container>
+    <>
+      <NavBar/>
+      <div className='container'>
+        <Routes>
+          <Route path="/" element={<Welcome/>}/>
+          <Route path="/charts" element={<Charts/>}/>
+          <Route path="/news" element={<News/>}/>
+        </Routes>
+      </div>
+    </>
   );
 }
 
