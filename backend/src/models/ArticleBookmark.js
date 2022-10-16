@@ -7,4 +7,11 @@ let ArticleBookmarkSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// Populate the newsArticle field in the database
+ArticleBookmarkSchema.methods.toJSONFor = user => {
+    return {
+        newsArticle: this.newsArticle.toJSONFor(newsArticle)
+    }
+};
+
 mongoose.model('ArticleBookmark', ArticleBookmarkSchema);

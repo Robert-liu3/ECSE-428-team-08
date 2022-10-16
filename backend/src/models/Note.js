@@ -9,4 +9,13 @@ let NoteSchema = new mongoose.Schema({
     timestamps : true
 });
 
+// Populate the author field in the database
+ArticleBookmarkSchema.methods.toJSONFor = user => {
+    return {
+        title: this.title,
+        body: this.body,
+        author: this.author.toProfileJSONFor(user)
+    }
+};
+
 mongoose.model('Note', NoteSchema);
