@@ -2,18 +2,19 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-import indexRouter from "./routes/posts.js"
+import userRouter from "./routes/userRoute.js"
+import postRoutes from './routes/userRoute.js';
 
 const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded());
-app.use(indexRouter);
+app.use(userRouter);
 
 
 // app.listen(5000, ()=>{
 // console.log("sever started on 5000")});
 
-import postRoutes from './routes/posts.js';
+
 
 app.use('/posts', postRoutes);
 
