@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 
 let UserSchema = new mongoose.Schema({
-
+    username: string,
+    profileBio: String,
+    image: String,
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 },
 {
     timestamps: true
