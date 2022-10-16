@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-import indexRouter from "./routers/posts.js"
+import indexRouter from "./routes/posts.js"
 
 const app = express();
 app.use(express.json()); 
