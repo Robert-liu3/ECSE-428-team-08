@@ -4,10 +4,12 @@ import express from "express";
 import mongoose from "mongoose";
 
 import postRoutes from './routes/posts.js';
+import newsRoutes from './routes/news.js';
 
 const app = express();
 
 app.use('/posts', postRoutes);
+app.use('/', newsRoutes);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
