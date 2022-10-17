@@ -22,4 +22,4 @@ ArticleSchema.methods.toJSONFor = (user) => {
     }
 };
 
-mongoose.model('NewsArticle', ArticleSchema);s
+mongoose.model('NewsArticle', ArticleSchema);
