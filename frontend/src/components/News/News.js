@@ -1,3 +1,6 @@
+import axios from "axios"
+import React, { useState, useEffect } from "react";
+
 function Header() {
     return (
         <div className="row">
@@ -13,10 +16,31 @@ function Header() {
 }
 
 // Will be used as a default to make cleaner
-function LargeArticleContainer() {
+
+async function LargeArticleContainer() {
+    const[articles,setArticles] = useState();
+    //x holds articles
+    useEffect(() => {
+        async function apiCall(){
+            var x = await axios.get("http://localhost:5000/news");
+            setArticles(x.data);
+
+
+
+        }
+        apiCall();
+
+
+    }, []);
+
+    console.log(articles);
+
+    //console.log(axios.get("http://localhost:5000/news"));
     return (
         <div className="post mb-3 pb-3 border-bottom">
             <div className="post-media">
+                {articles.urlToImage}
+                
 
             </div>
             <div className="post-header">
