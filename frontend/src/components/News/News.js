@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
 function Header() {
     return (
@@ -7,7 +7,7 @@ function Header() {
             <div className="col-xl-12">
                 <div className="section-header row">
                     <div className="col-12">
-                        <h2 className="section-title h4 font-weight-bold font-alegreya">WORLD</h2>
+                        <h2 className="section-title h4 font-weight-bold font-alegreya">Latest in Stock News</h2>
                     </div>
                 </div>
             </div>
@@ -16,44 +16,28 @@ function Header() {
 }
 
 // Will be used as a default to make cleaner
+const LargeArticleContainer = (props) => {
+    const articleImage = props.imageUrl;
+    const articleTitle = props.title;
+    const articleDescription = props.description;
+    const articleUrl = props.articleUrl;
 
-async function LargeArticleContainer() {
-    const[articles,setArticles] = useState();
-    //x holds articles
-    useEffect(() => {
-        async function apiCall(){
-            var x = await axios.get("http://localhost:5000/news");
-            setArticles(x.data);
-
-
-
-        }
-        apiCall();
-
-
-    }, []);
-
-    console.log(articles);
-
-    //console.log(axios.get("http://localhost:5000/news"));
     return (
         <div className="post mb-3 pb-3 border-bottom">
             <div className="post-media">
-                {articles.urlToImage}
-                
-
+                <a href={articleUrl}>
+                    <img className="img-fluid" src={articleImage}/>
+                </a>
             </div>
             <div className="post-header">
-                <div className="post-supertitle">CATEGORY</div>
-                <div className="post-title h4 font-weight-bold">Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur
+                <div className="post-supertitle">Stonks</div>
+                <div className="post-title h4 font-weight-bold">
+                    {articleTitle}
                 </div>
             </div>
             <div className="post-body">
-                <div className="post-content">Quis autem vel eum iure reprehenderit qui in ea
-                    voluptate velit esse quam nihil molestiae consequatur, vel illum qui
-                    dolorem
+                <div className="post-content">
+                    {articleDescription}
                 </div>
                 <div className="post-date">
                     <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
@@ -63,24 +47,31 @@ async function LargeArticleContainer() {
     )
 }
 
-function SmallArticleContainer() {
+const SmallArticleContainer = (props) => {
+    const articleImage = props.imageUrl;
+    const articleTitle = props.title;
+    const articleDescription = props.description;
+    const articleUrl = props.articleUrl;
+
     return (
         <div className="post mb-3 pb-3 border-bottom">
             <div className="row">
                 <div className="col-auto">
                     <div className="post-media ">
-
+                        <a href={articleUrl}>
+                            <img className="img-fluid" src={articleImage} width="100"/>
+                        </a>
                     </div>
                 </div>
                 <div className="col">
                     <div className="post-header">
-                        <div className="post-title h5 font-weight-bold">Sed ut perspiciatis unde
-                            omnis iste natus error sit voluptatem accusantium doloremque.
+                        <div className="post-title h5 font-weight-bold">
+                            {articleTitle}
                         </div>
                     </div>
                     <div className="post-body">
-                        <div className="post-content">Quis autem vel eum iure reprehenderit qui
-                            in ea voluptate velit esse quam nihil.
+                        <div className="post-content">
+                            {articleDescription}
                         </div>
                         <div className="post-date">
                             <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
@@ -108,7 +99,23 @@ function LatestSideBarArticle() {
 }
 
 export default function News() {
-    let news = []
+    // Variable will store the articles obtained from api
+    // Requires initial value
+    const [newsArticles, setArticles] = useState([]);
+
+    // When the call is made, update newsArticles
+    useEffect(() => {
+        async function apiCall() {
+            let news = await axios.get("http://localhost:5000/news");
+            setArticles(news.data.articles.articles);
+        }
+
+        apiCall();
+    }, []);
+
+    // Split articles into sets that need to be displayed
+    const topArticles = newsArticles.slice(0, 4);
+    const smallerArticles = newsArticles.slice(4, 10);
 
     return (
         <>
@@ -123,52 +130,36 @@ export default function News() {
 
                             <Header/>
 
+                            {/*First column of articles*/}
                             <div class="row">
                                 <div class="col-12 col-md-5 mb-3 mb-md-0">
                                     <ul style={{listStyleType: "none"}}>
-                                        <li>
-                                            <LargeArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <LargeArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <LargeArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <LargeArticleContainer/>
-                                        </li>
+                                        {topArticles.map((article) =>
+                                            <li>
+                                                <LargeArticleContainer
+                                                    imageUrl={article.urlToImage}
+                                                    title={article.title}
+                                                    description={article.description}
+                                                    articleUrl={article.url}
+                                                />
+                                            </li>
+                                        )}
                                     </ul>
-
                                 </div>
+
+                                {/*Second column of articles*/}
                                 <div class="col-12 col-md-7">
                                     <ul style={{listStyleType: "none"}}>
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
-
-                                        <li>
-                                            <SmallArticleContainer/>
-                                        </li>
+                                        {smallerArticles.map((article) =>
+                                            <li>
+                                                <SmallArticleContainer
+                                                    imageUrl={article.urlToImage}
+                                                    title={article.title}
+                                                    description={article.description}
+                                                    articleUrl={article.url}
+                                                />
+                                            </li>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
@@ -185,7 +176,7 @@ export default function News() {
                                             <div class="widget-title">Latest</div>
                                         </div>
 
-                                        <ul style={{ listStyleType: 'none' }}>
+                                        <ul style={{listStyleType: 'none'}}>
                                             <li>
                                                 <LatestSideBarArticle/>
                                             </li>
