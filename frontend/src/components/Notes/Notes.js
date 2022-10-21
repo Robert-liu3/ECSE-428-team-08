@@ -1,9 +1,14 @@
-const NotesList = () => {
-    return ( 
-        <div className='notes-list'>
-            <Notes />
-        </div>
-    );
-};
+import React from 'react'
 
-export default NotesList;
+function Notes(props) {
+  return (props.trigger) ? (
+    <div className="popup_notes">
+        <div className="popup_inner">
+            <button className="close_btn">close</button>
+            {props.children}
+        </div>
+    </div>
+  ) : "";
+}
+
+export default Notes;
