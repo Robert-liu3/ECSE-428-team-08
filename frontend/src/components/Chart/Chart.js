@@ -1,14 +1,15 @@
 import React from "react";
+import "./styles.css";
+
 function iframe() {
   return {
-    __html:
-      '<iframe src="./Chart-Widget-for-Frontend.html" width="1200" height="600" ></iframe>',
+    __html: '<iframe src="./Chart-Widget-for-Frontend.html" ></iframe>',
   };
 }
 
 export default function Charts() {
   return (
-    <div>
+    <div class="h_iframe">
       <div dangerouslySetInnerHTML={iframe()} />
     </div>
   );
