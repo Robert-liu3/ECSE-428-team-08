@@ -6,6 +6,7 @@ import UserLogin from './components/UserLogin/UserLogin.js'
 import UserSignUp from './components/UserSignUp/UserSignUp.js'
 import './components/site_style.css'
 import { Route, Routes } from 'react-router-dom'
+import "bootstrap/dist/css/bootstrap.min.css"
 
 function App(props) {
   return (
