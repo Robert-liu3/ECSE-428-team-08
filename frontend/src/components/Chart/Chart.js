@@ -1,15 +1,41 @@
 import React from "react";
-function iframe() {
-  return {
-    __html:
-      '<iframe src="./Chart-Widget-for-Frontend.html" width="1200" height="600" ></iframe>',
-  };
-}
+import { AdvancedChart } from "react-tradingview-embed";
+import "./styles.css"
+
 
 export default function Charts() {
   return (
     <div>
-      <div dangerouslySetInnerHTML={iframe()} />
+      <div className="chart">
+        <AdvancedChart widgetProps={{
+          autosize: false,
+          symbol: "AAPL",
+          interval: "D",
+          timezone: "America/New_York",
+          theme: "light",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#f1f3f6",
+          enable_publishing: false,
+          hide_side_toolbar: true,
+          allow_symbol_change: false,
+          container_id: "tradingview_1",
+        }} />
+        <AdvancedChart widgetProps={{
+          autosize: false,
+          symbol: "TSLA",
+          interval: "D",
+          timezone: "America/New_York",
+          theme: "light",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#f1f3f6",
+          enable_publishing: false,
+          hide_side_toolbar: true,
+          allow_symbol_change: false,
+          container_id: "tradingview_2",
+        }} />
+      </div>
     </div>
   );
 }
