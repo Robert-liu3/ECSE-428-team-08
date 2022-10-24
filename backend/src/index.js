@@ -3,12 +3,23 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js"
-import postRoutes from './routes/userRoute.js';
+
 
 const app = express();
+app.use(cors); // CORS policy
 app.use(express.json()); 
 app.use(express.urlencoded());
 app.use(userRouter);
+
+// header('Access-Control-Allow-Origin: *')
+// header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE')
+// header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization')
+// var corsOptions = {
+//     origin: 'http://localhost:3000',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
+
+
 
 
 // app.listen(5000, ()=>{
@@ -16,11 +27,11 @@ app.use(userRouter);
 
 
 
-app.use('/', postRoutes);
+app.use('/', userRouter);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+
 
 
 

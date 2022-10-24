@@ -12,6 +12,7 @@ const users = [];
  */
 export const getUsers = async (req, res) => {
   try {
+    console.log("USERS")
     res.send({ users });
   } catch (error) {
     res.send({ message: error.message });
