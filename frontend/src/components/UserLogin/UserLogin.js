@@ -1,8 +1,30 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import React from "react"
-import {getUser} from "../../route/userRoute.js"
+import { useState } from 'react';
+import {getUser,login} from "../../route/userRoute.js"
+
+
 
 export default function (props) {
+  const [message, setMessage] = useState('');
+  // var email;
+
+  const handleSubmit = event => {
+    // 👇️ prevent page refresh
+    event.preventDefault();
+  
+    console.log('form submitted ✅');
+  };
+  
+  const handleChange = event => {
+    setMessage(event.target.value);
+    console.log('value is:', event.target.value);
+    // email = event.target.value
+    // console.log(email)
+    return event.target.value;
+  
+  };
+
   return (
     <>
     <div className="Auth-form-container">
@@ -12,6 +34,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Email address or Username</label>
             <input
+              onChange={handleChange}
               type="email"
               className="form-control mt-1"
               placeholder="Enter email or username"
@@ -26,7 +49,7 @@ export default function (props) {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button onClick={getUser} type="submit" className="btn btn-primary">
+            <button onClick={login} type="submit" className="btn btn-primary">
               Submit
             </button>
           </div>
@@ -95,9 +118,4 @@ function CustomTab({to, children, ...props}) {
 //   await getUser
 // }
 
-const handleSubmit = event => {
-  // 👇️ prevent page refresh
-  event.preventDefault();
 
-  console.log('form submitted ✅');
-};

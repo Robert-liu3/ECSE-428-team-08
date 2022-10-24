@@ -8,5 +8,14 @@ const route = axios.create({
 export const getUser = async () => {
     console.log("hi")
     const response = await route.get("/getUsers")
-    console.log(response.data);
+    console.log(response.data)
+    return response.data
+}
+
+
+export const login = async (user) => {
+    console.log("I am here for login")
+    const response = await route.get(`/login/${user.username}/${user.passwoed}`,user)
+    console.log(response.data)
+    return response.data
 }
