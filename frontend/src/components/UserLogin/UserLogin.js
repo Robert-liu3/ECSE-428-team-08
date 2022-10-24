@@ -1,11 +1,12 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import React from "react"
+import {getUser} from "../../route/userRoute.js"
 
 export default function (props) {
   return (
     <>
     <div className="Auth-form-container">
-      <form className="Auth-form">
+      < form onSubmit={handleSubmit} className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Login</h3>
           <div className="form-group mt-3">
@@ -25,7 +26,7 @@ export default function (props) {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button onClick={getUser} type="submit" className="btn btn-primary">
               Submit
             </button>
           </div>
@@ -87,4 +88,16 @@ function CustomTab({to, children, ...props}) {
           <Link to={to} {...props}>{children}</Link>
       </li>
   )
+  
 }
+
+// async function test(){
+//   await getUser
+// }
+
+const handleSubmit = event => {
+  // 👇️ prevent page refresh
+  event.preventDefault();
+
+  console.log('form submitted ✅');
+};
