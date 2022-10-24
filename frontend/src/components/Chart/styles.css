@@ -1,14 +1,7 @@
-html,
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
+.chart {
+    align-items: center;
+    margin: auto;
+    height: 500px;
+    width: 70%;
 }
-.h_iframe iframe {
-  width: 100%;
-  height: 100%;
-}
-.h_iframe {
-  height: 100%;
-  width: 100%;
-}
+
