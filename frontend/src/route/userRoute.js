@@ -13,9 +13,9 @@ export const getUser = async () => {
 }
 
 
-export const login = async (user) => {
-    console.log("I am here for login")
-    const response = await route.get(`/login/${user.username}/${user.passwoed}`,user)
-    console.log(response.data)
-    return response.data
-}
+export async function loginUser(credentials) {
+    console.log("login user")
+    console.log(credentials.username)
+    const response = await route.get(`/login/${credentials.username}/${credentials.password}`)
+    return response.data;
+   }

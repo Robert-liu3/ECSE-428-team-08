@@ -1,29 +1,42 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import React from "react"
 import { useState } from 'react';
-import {getUser,login} from "../../route/userRoute.js"
-
-
+import {getUser,loginUser} from "../../route/userRoute.js"
 
 export default function (props) {
-  const [message, setMessage] = useState('');
+  
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
   // var email;
 
-  const handleSubmit = event => {
-    // 👇️ prevent page refresh
+  const handleSubmit = async event => {
+  //prevent page refresh
     event.preventDefault();
+    // console.log(username)
+    // console.log(password)
+    // console.log("dasdasd")
   
+    const value = await loginUser({
+      username,
+      password
+    });
+    // HERE CHECK IF VALUE IS RIGHT THE SWITCH PAGES
+    console.log(typeof value);
+    console.log("here " + value);
+    if(value == "PERFECT"){
+      console.log(" SWITCH PAGES")
+    }
     console.log('form submitted ✅');
   };
   
-  const handleChange = event => {
-    setMessage(event.target.value);
-    console.log('value is:', event.target.value);
-    // email = event.target.value
-    // console.log(email)
-    return event.target.value;
+  // const handleChange = event => {
+  //   setMessage(event.target.value);
+  //   console.log('value is:', event.target.value);
+  //   // email = event.target.value
+  //   // console.log(email)
+  //   return event.target.value;
   
-  };
+  // };
 
   return (
     <>
@@ -34,7 +47,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Email address or Username</label>
             <input
-              onChange={handleChange}
+              onChange={e=> setUserName(e.target.value)}
               type="email"
               className="form-control mt-1"
               placeholder="Enter email or username"
@@ -44,12 +57,13 @@ export default function (props) {
             <label>Password</label>
             <input
               type="password"
+              onChange={e => setPassword(e.target.value)}
               className="form-control mt-1"
               placeholder="Enter password"
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button onClick={login} type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Submit
             </button>
           </div>
@@ -113,9 +127,5 @@ function CustomTab({to, children, ...props}) {
   )
   
 }
-
-// async function test(){
-//   await getUser
-// }
 
 
