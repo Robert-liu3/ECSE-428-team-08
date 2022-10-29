@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test_w_server": "start-server-and-test start http://localhost:5000/ test"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +21,9 @@
     "newsapi": "^2.4.1",
     "nodeman": "^1.1.2",
     "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2",
+    "start-server-and-test": "^1.14.0"
   }
 }
