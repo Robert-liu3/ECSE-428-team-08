@@ -25,10 +25,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "silent_start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test a",
     "eject": "react-scripts eject",
-    "test_charts": "node tests/test_charts.js"
+    "test_w_server": "start-server-and-test silent_start http://localhost:3000/ test"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "start-server-and-test": "^1.14.0"
   }
 }

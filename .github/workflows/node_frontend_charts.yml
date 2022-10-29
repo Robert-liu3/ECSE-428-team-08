@@ -38,5 +38,5 @@ jobs:
         chromedriver-version: '106.0.5249.61'
     - run: npm ci --legacy-peer-deps
       working-directory: frontend
-    - run: npm run test_charts
+    - run: npm run test_w_server
       working-directory: frontend
