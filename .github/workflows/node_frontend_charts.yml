@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     
     defaults:
@@ -40,3 +40,5 @@ jobs:
       working-directory: frontend
     - run: npm run test_w_server
       working-directory: frontend
+    - run: npm run test_w_server
+      working-directory: backend
