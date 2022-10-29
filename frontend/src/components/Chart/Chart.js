@@ -17,8 +17,8 @@ export default function Charts() {
           locale: "en",
           toolbar_bg: "#f1f3f6",
           enable_publishing: false,
-          hide_side_toolbar: true,
-          allow_symbol_change: false,
+          hide_side_toolbar: false,
+          allow_symbol_change: true,
           container_id: "tradingview_1",
         }} />
         <AdvancedChart widgetProps={{
