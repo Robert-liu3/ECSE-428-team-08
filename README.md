@@ -37,5 +37,7 @@ npm install start-server-and-test
 &&
 
 testing backend
+
 in ./backend
+
 npm install --save-dev jest
