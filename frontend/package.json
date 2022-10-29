@@ -20,13 +20,15 @@
     "react-tradingview-embed": "^3.0.6",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "selenium-webdriver": "^4.5.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test_charts": "node tests/test_charts.js"
   },
   "eslintConfig": {
     "extends": [
