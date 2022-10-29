@@ -33,3 +33,9 @@ FOR TESTING
 
 in either ./frontend or ./backend depending on which section is testing
 npm install start-server-and-test
+
+&&
+
+testing backend
+in ./backend
+npm install --save-dev jest
