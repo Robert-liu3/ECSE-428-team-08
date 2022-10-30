@@ -1,6 +1,5 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
-const chromedriver = require("chromedriver");
 
 const screen_obj = {
   width: 640,
