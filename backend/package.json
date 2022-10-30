@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "jest",
-    "test_w_server": "start-server-and-test start http://localhost:5000/ test"
+    "test_w_server": "start-server-and-test dev http://localhost:5000/ test"
   },
   "keywords": [],
   "author": "",
