@@ -41,3 +41,13 @@ testing backend
 in ./backend
 
 npm install --save-dev jest
+
+npm install supertest
+
+testing frontend
+
+in ./frontend
+
+npm install --save-dev cypress
+
+npm run cypress:open
