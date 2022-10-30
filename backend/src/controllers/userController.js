@@ -51,21 +51,9 @@ export const createUser = async (req, res) => {
   console.log(req.body)
   const newUser = new user(req.body);
   newUser.save()
-    .then(() => res.json("user added"))
+    .then(() => res.send("user added"))
     .catch(err => res.json("Error:" + err))
 
-
-  // const newUser = new user(userInfo);
-
-  // try {
-  //   console.log("here");
-  //   users.push({username: userInfo.username, image: userInfo.image, profileBio: userInfo.profileBio, password: userInfo.password});
-  //   console.log(users);
-  //   await newUser.save();
-  //   res.send(newUser);
-  // } catch (error) {
-  //   res.send({ message: error.message });
-  // }
 };
 /**
  * 
@@ -75,18 +63,10 @@ export const createUser = async (req, res) => {
  * function to get check the login credentials of a user
  */
 export const login = async (req, res) => {
-  console.log("HELLO");
-  console.log(req.params)
+  // console.log(req.params)
   const id = req.params.username;
-  // user.find({id}, (error, data) =>{
-  //   if(error){
-  //     console.log(error)
-  //   }else{
-  //     console.log(data[1].password)
-  //   }
-  // })
 
-  console.log(req.params.password)
+  // console.log(req.params.password)
 
   user.find({id})
     .then(info => {
@@ -100,14 +80,5 @@ export const login = async (req, res) => {
     .catch(err => res.json("Error: " + err + "dasdadasd"))
     
 
-  // try {
-  //   for (let i = 0; i < users.length; i++) {
-  //     if(users[i].username == req.params.username && users[i].password == req.params.password){
-  //     res.send({ username: users[i].username, image: users[i].image, profileBio: users[i].profileBio, password: users[i].password });
-  //     }
-  //   }
-  // } catch (error) {
-  //   res.send({ message: error.message + "here" });
-  // }
 };
 
