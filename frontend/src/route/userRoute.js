@@ -26,8 +26,12 @@ export async function createUser(userInfo){
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         email: userInfo.email,
-        username: userInfo.username,
-        password: userInfo.password
+        _id: userInfo.username,
+        password: userInfo.password,
+        image: "dog",
+        profileBio: "cat"
+
+        
     })
 
 }

@@ -12,10 +12,7 @@ export default function (props) {
   const handleSubmit = async event => {
   //prevent page refresh
     event.preventDefault();
-    // console.log(username)
-    // console.log(password)
-    // console.log("dasdasd")
-  
+   
     const value = await loginUser({
       username,
       password
@@ -29,15 +26,6 @@ export default function (props) {
     console.log('form submitted ✅');
   };
   
-  // const handleChange = event => {
-  //   setMessage(event.target.value);
-  //   console.log('value is:', event.target.value);
-  //   // email = event.target.value
-  //   // console.log(email)
-  //   return event.target.value;
-  
-  // };
-
   return (
     <>
     <div className="Auth-form-container">

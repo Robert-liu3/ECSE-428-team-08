@@ -14,21 +14,17 @@ export default function (props) {
   const handleSubmit = async event => {
     //prevent page refresh
       event.preventDefault();
-      // console.log(username)
-      // console.log(password)
-      // console.log("dasdasd")
     
       const value = await createUser({
         firstName,
         lastName,
         email,
+        password,
         username,
-        password
+         profileBio: "asdasd",
+         image: "dsadasdsa",
+         following: [{}]
       });
-
-      console.log("asdasdsadas")
-
-  
 
     };
   return (
