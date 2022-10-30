@@ -23,8 +23,8 @@ export default function (props) {
     // HERE CHECK IF VALUE IS RIGHT THE SWITCH PAGES
     console.log(typeof value);
     console.log("here " + value);
-    if(value == "PERFECT"){
-      console.log(" SWITCH PAGES")
+    if(value == "Correct"){
+      document.location.href = '/signup'
     }
     console.log('form submitted ✅');
   };
@@ -48,7 +48,7 @@ export default function (props) {
             <label>Email address or Username</label>
             <input
               onChange={e=> setUserName(e.target.value)}
-              type="email"
+              type=""
               className="form-control mt-1"
               placeholder="Enter email or username"
             />

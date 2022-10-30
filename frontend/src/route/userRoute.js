@@ -1,6 +1,7 @@
 import axios from "axios"
 
 
+
 const route = axios.create({
     baseURL: "http://localhost:5000"
 })
@@ -19,3 +20,14 @@ export async function loginUser(credentials) {
     const response = await route.get(`/login/${credentials.username}/${credentials.password}`)
     return response.data;
    }
+export async function createUser(userInfo){
+
+    await route.post('/createUser', {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email: userInfo.email,
+        username: userInfo.username,
+        password: userInfo.password
+    })
+
+}

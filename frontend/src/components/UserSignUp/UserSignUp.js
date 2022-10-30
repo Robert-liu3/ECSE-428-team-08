@@ -1,16 +1,46 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import React from "react"
-
+import {createUser} from "../../route/userRoute.js"
+import { useState } from 'react';
 export default function (props) {
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
+
+
+  const handleSubmit = async event => {
+    //prevent page refresh
+      event.preventDefault();
+      // console.log(username)
+      // console.log(password)
+      // console.log("dasdasd")
+    
+      const value = await createUser({
+        firstName,
+        lastName,
+        email,
+        username,
+        password
+      });
+
+      console.log("asdasdsadas")
+
+  
+
+    };
   return (
     <>
     <div className="Auth-form-container">
-      <form className="Auth-form">
+      <form onSubmit={handleSubmit} className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign Up</h3>
           <div className="form-group mt-3">
             <label>First Name</label>
             <input
+              onChange={e=> setFirstName(e.target.value)}
               type="firstname"
               className="form-control mt-1"
               placeholder="Enter first name"
@@ -19,6 +49,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Last Name</label>
             <input
+              onChange={e=> setLastName(e.target.value)}
               type="lastname"
               className="form-control mt-1"
               placeholder="Enter last name"
@@ -27,6 +58,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Email Address</label>
             <input
+              onChange={e=> setEmail(e.target.value)}
               type="email"
               className="form-control mt-1"
               placeholder="Enter email"
@@ -35,6 +67,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Username</label>
             <input
+              onChange={e=> setUserName(e.target.value)}
               type="username"
               className="form-control mt-1"
               placeholder="Enter username"
@@ -43,6 +76,7 @@ export default function (props) {
           <div className="form-group mt-3">
             <label>Password</label>
             <input
+              onChange={e=> setPassword(e.target.value)}
               type="password"
               className="form-control mt-1"
               placeholder="Enter password"
