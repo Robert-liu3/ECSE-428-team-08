@@ -50,4 +50,4 @@ test("getTicker", async () => {
   expect(ticker).toBe("AAPL");
 
   await driver.quit();
-});
+}); 
