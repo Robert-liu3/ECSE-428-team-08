@@ -11,8 +11,8 @@ import "bootstrap/dist/css/bootstrap.min.css"
 function App(props) {
   return (
     <>
-      <NavBar/>
-      <div className='container'>
+      <NavBar />
+      <div className="container">
         <Routes>
           <Route path="/" element={<Welcome/>}/>
           <Route path="/charts" element={<Charts/>}/>

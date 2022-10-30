@@ -2,7 +2,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-import userRouter from "./routes/userRoute.js"
+import userRouter from "./routes/userRoute.js";
+import postRoutes from './routes/posts.js';
+import newsRoutes from './routes/news.js';
 
 
 export const app = express();
@@ -28,9 +30,11 @@ app.use('/', userRouter);
 // app.listen(5000, ()=>{
 // console.log("sever started on 5000")});
 
+const app = express();
+app.use(cors());
 
-
-
+app.use('/posts', postRoutes);
+app.use('/news', newsRoutes);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
