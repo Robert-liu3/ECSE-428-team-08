@@ -28,4 +28,4 @@ router.get("/login/:username/:password", login)
 //     const{username, password} = req.body;
 // })
 
-export default router;
+export default router
