@@ -2,7 +2,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-
 import postRoutes from './routes/posts.js';
 import newsRoutes from './routes/news.js';
 
