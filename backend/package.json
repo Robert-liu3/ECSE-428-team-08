@@ -7,8 +7,11 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test_w_server": "start-server-and-test start http://localhost:5000/ test"
+  },
+  "jest": {
+    "transform": {}
   },
   "keywords": [],
   "author": "",
