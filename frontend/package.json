@@ -29,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test a",
     "eject": "react-scripts eject",
-    "test_w_server": "start-server-and-test silent_start http://localhost:3000/ test"
+    "test_w_server": "start-server-and-test silent_start http://localhost:3000/ test",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^10.11.0",
     "start-server-and-test": "^1.14.0"
   }
 }
