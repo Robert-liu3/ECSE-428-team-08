@@ -39,6 +39,4 @@ jobs:
     - run: npm ci --legacy-peer-deps
       working-directory: frontend
     - run: npm run test_w_server
-      working-directory: backend
-    - run: npm run test_w_server
       working-directory: frontend
