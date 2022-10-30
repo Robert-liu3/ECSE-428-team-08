@@ -20,7 +20,7 @@ const run_chart_tests = async () => {
     return title;
 }
 
-test('dummy', () => {
+test('charts hello', () => {
     console.log("Hello");
 
     expect(true).toBe(true);
