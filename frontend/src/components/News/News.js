@@ -101,7 +101,12 @@ export default function News() {
   // When the call is made, update newsArticles
   useEffect(() => {
     async function apiCall() {
-      let news = await axios.get("http://localhost:5000/news");
+      let news = await axios.get("http://localhost:5000/news/getNews", {
+        params: {
+          query: "stocks",
+          category: "business"
+        }
+      });
       setArticles(news.data.articles.articles);
     }
 
