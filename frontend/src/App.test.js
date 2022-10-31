@@ -60,7 +60,7 @@ const run_chart_tests = async () => {
 
 
   // await driver.get("http://localhost:3000/");
-  let driver = await setupChromeDriver();
+  let driver = setupChromeDriver();
   var title = await driver.getTitle();
 
   await driver.quit();
