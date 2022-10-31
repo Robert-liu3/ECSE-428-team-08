@@ -5,6 +5,7 @@ const router = express.Router();
 let NOTES = [
     {
         id: 'n1',
+        title: "First Note",
         notes: 'Helloooo',
         creator: '1',
         section: 'News'
