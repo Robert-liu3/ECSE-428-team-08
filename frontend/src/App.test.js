@@ -51,31 +51,3 @@ test("getTicker", async () => {
 
   await driver.quit();
 }); 
-
-const run_chart_tests = async () => {
-  // let driver = await new Builder().forBrowser('chrome')
-  //                                 .setChromeOptions(new chrome.Options().headless().windowSize(screen_obj))
-  //                                 .build();
-
-
-
-  // await driver.get("http://localhost:3000/");
-  let driver = setupChromeDriver();
-  var title = await driver.getTitle();
-
-  await driver.quit();
-
-  return title;
-}
-
-test('charts hello', () => {
-  console.log("Hello");
-
-  expect(true).toBe(true);
-});
-
-test('charts', async() => {
-  let title = await run_chart_tests();
-  console.log(title);
-  expect(title).toBe('React App');
-});
