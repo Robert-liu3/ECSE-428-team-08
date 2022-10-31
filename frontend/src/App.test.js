@@ -35,21 +35,18 @@ const run_chart_tests = async () => {
 }
 
 test('charts hello', () => {
-  jest.useFakeTimers('legacy')
   console.log("Hello");
 
   expect(true).toBe(true);
 });
 
 test('charts', async() => {
-  jest.useFakeTimers('legacy')
   let title = await run_chart_tests();
   console.log(title);
   expect(title).toBe('React App');
 });
 
 test("getTicker", async () => {
-  jest.useFakeTimers('legacy')
   let driver = await setupChromeDriver();
 
   await driver.wait(
