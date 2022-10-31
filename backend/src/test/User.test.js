@@ -4,6 +4,7 @@ import {getUser} from "../controllers/userController.js"
 
  test('getAllusers',async () => {
          const response = await request(app).get("/getUsers")
+         console.log("SDFLKJ;AASDLKF;JASDLJKFSLADJKFALSDK;FASDJLKFJKLDASFJKL;ADSJFKL;ASDJLKFALS;DJKFASDL;JKFASDLJ;KF")
          expect(response.statusCode).toBe(200);
 })
 
