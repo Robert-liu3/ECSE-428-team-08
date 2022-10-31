@@ -5,7 +5,7 @@ const screen_obj = {
   width: 640,
   height: 480,
 };
-jest.useFakeTimers('legacy')
+
 const setupChromeDriver = async () => {
   // Configure the driver
   let driver = await new Builder()
