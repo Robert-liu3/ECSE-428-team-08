@@ -9,20 +9,20 @@ import { Route, Routes } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css"
 
 function App(props) {
-  return (
-    <>
-      <NavBar/>
-      <div className='container'>
-        <Routes>
-          <Route path="/" element={<Welcome/>}/>
-          <Route path="/charts" element={<Charts/>}/>
-          <Route path="/news" element={<News/>}/>
-          <Route path="/login" element={<UserLogin/>}/>
-          <Route path="/signup" element={<UserSignUp/>}/>
-        </Routes>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <NavBar/>
+            <div className='container'>
+                <Routes>
+                    <Route path="/" element={<Welcome/>}/>
+                    <Route path="/charts" element={<Charts/>}/>
+                    <Route path="/news" element={<News/>}/>
+                    <Route path="/login" element={<UserLogin/>}/>
+                    <Route path="/signup" element={<UserSignUp/>}/>
+                </Routes>
+            </div>
+        </>
+    );
 }
 
 export default App;

@@ -25,7 +25,3 @@ test('createUser',async () => {
     })
     expect(response.statusCode).toBe(200);
 })
-
-
-
-  

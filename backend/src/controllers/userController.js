@@ -1,4 +1,4 @@
-import { User } from "discord.js";
+//import { User } from "discord.js";
 import user from "../models/user.js";
 
 // For testing since cant access database
