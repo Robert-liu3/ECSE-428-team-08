@@ -53,5 +53,3 @@ test("getTicker", async () => {
 
   await driver.quit();
 }); 
-
-//test frontend
