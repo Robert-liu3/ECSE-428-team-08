@@ -16,7 +16,7 @@ function App(props) {
             <NavBar/>
             <div className='container'>
               <main>
-                <button onClick={() => setButtonAddNotes(true)}>Add Notes</button>
+                {/* <button onClick={() => setButtonAddNotes(true)}>Add Notes</button> */}
               </main>
               <Routes>
                   <Route path="/" element={<Welcome/>}/>
