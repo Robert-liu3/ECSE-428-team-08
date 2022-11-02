@@ -2,20 +2,26 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-
 import postRoutes from './routes/posts.js';
 import newsRoutes from './routes/news.js';
+import userRouter from './routes/userRoute.js';
 
-const app = express();
+export const app = express();
 app.use(cors());
 
+/****************************
+ Routes for backend endpoints
+ ****************************/
 app.use('/posts', postRoutes);
 app.use('/news', newsRoutes);
+app.use('/', userRouter);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-
+/**************
+ Database setup
+ **************/
 const CONNECTION_URL = 'mongodb+srv://ecse428_db:passwordecse428@cluster0.k783efm.mongodb.net/?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 5000;
 
