@@ -8,6 +8,8 @@ import userRouter from './routes/userRoute.js';
 
 export const app = express();
 app.use(cors());
+app.use(express.json()); 
+app.use(express.urlencoded());
 
 /****************************
  Routes for backend endpoints
