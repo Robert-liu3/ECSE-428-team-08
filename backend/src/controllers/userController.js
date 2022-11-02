@@ -47,8 +47,9 @@ export const getUser = async (req, res) => {
  * function to register an user
  */
 export const createUser = async (req, res) => {
-  const userInfo = req.body;
   console.log(req.body)
+  const userInfo = req.body;
+  
   const newUser = new user(req.body);
   newUser.save()
     .then(() => res.send("user added"))
