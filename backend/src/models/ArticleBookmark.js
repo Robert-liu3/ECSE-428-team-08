@@ -1,5 +1,6 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
+// Bookmarks will be attached to an article and stored in a user's favourite articles or bookmarks list
 let ArticleBookmarkSchema = new mongoose.Schema({
     newsArticle: { type: mongoose.Schema.Types.ObjectID, ref: 'NewsArticle'}
 },
@@ -8,10 +9,11 @@ let ArticleBookmarkSchema = new mongoose.Schema({
 });
 
 // Populate the newsArticle field in the database
-ArticleBookmarkSchema.methods.toJSONFor = user => {
+ArticleBookmarkSchema.methods.toJSONFor = () => {
     return {
-        newsArticle: this.newsArticle.toJSONFor(newsArticle)
+        newsArticle: this.newsArticle.toJSONFor(this.newsArticle)
     }
 };
 
-mongoose.model('ArticleBookmark', ArticleBookmarkSchema);
+const ArticleBookmark = mongoose.model('ArticleBookmark', ArticleBookmarkSchema);
+export default ArticleBookmark;

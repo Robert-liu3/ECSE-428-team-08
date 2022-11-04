@@ -1,4 +1,3 @@
-//import { User } from "discord.js";
 import user from "../models/user.js";
 
 // For testing since cant access database
@@ -28,10 +27,9 @@ export const getUser = async (req, res) => {
     for (let i = 0; i < users.length; i++) {
       console.log(i)
       if(users[i].username == req.params.username){
-      res.send({ username: users[i].username, image: users[i].image, profileBio: users[i].profileBio, password: users[i].password });
-      break;
+        res.send({ username: users[i].username, image: users[i].image, profileBio: users[i].profileBio, password: users[i].password });
+        break;
       }
-      break;
     }
 
   } catch (error) {

@@ -8,7 +8,8 @@ let UserSchema = new mongoose.Schema({
     profileBio: String,
     image: String,
     password: String,
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    likedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ArticleBookmark'}]
 },
 {
     timestamps: true
@@ -30,27 +31,43 @@ UserSchema.methods.toProfileJSONFor = (user) => {
       image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
       following: user ? user.isFollowing(this._id) : false
     };
-  };
-  // Follow a user with id 'id'
-  UserSchema.methods.follow = (id) => {
+};
+
+// Follow a user with id 'id'
+UserSchema.methods.follow = (id) => {
     this.following.add(id);
 
     return this.save();
-  };
+};
 
-  // Unfollow a user with id 'id'
-  UserSchema.methods.unfollow = (id) => {
+// Unfollow a user with id 'id'
+UserSchema.methods.unfollow = (id) => {
     this.following.remove(id);
 
     return this.save();
-  };
+};
 
-  // Whether this user is following some other user
-  UserSchema.methods.isFollowing = (id) => {
+// Whether this user is following some other user
+UserSchema.methods.isFollowing = (id) => {
     return this.following.some(followingId => {
         return followingId.toString === id.toString;
     })
-  };
+};
 
+// Add an article with specified id to the list of favourites
+UserSchema.methods.addFavouriteArticle = (id) => {
+  this.favouriteArticles.add(id);
+
+  return this.save();
+};
+
+// Remove an article from favourites list
+UserSchema.methods.removeFavouriteArticle = (id) => {
+    this.favouriteArticles.remove(id);
+
+    return this.save();
+}
+
+  // Remove an article from favourites list
 const user = mongoose.model('User', UserSchema);
 export default user;
