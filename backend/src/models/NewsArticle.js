@@ -27,6 +27,18 @@ ArticleSchema.methods.toJSONFor = () => {
     }
 };
 
+ArticleSchema.method.toProfileJSONFor = () => {
+    return {
+        id: this._id,
+        title: this.title,
+        description: this.description,
+        body: this.body,
+        author: this.author,
+        url: this.url,
+        imageUrl: this.imageUrl
+    }
+};
+
 // Creates model for a news article
 const NewsArticle = mongoose.model('NewsArticle', ArticleSchema);
 export default NewsArticle;
