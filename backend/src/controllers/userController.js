@@ -83,3 +83,45 @@ export const login = async (req, res) => {
 
 };
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res
+ * @param {*} next 
+ * 
+ * function to check if follow a user
+ */
+ export const followUser = async (req, res, next) => {
+  var profileId = req.profile._id;
+  
+    User.findById(req.payload.id).then(function(user){
+      if (!user) { return res.sendStatus(401); }
+  
+      return user.follow(profileId).then(function(){
+        return res.json({profile: req.profile.toProfileJSONFor(user)});
+      });
+    }).catch(next);
+  console.log("followUser")
+    
+};
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res
+ * @param {*} next 
+ * 
+ * function to check if unfollow a user
+ */
+ export const unfollowUser = async (req, res, next) => {
+  var profileId = req.profile._id;
+  
+    User.findById(req.payload.id).then(function(user){
+      if (!user) { return res.sendStatus(401); }
+  
+      return user.unfollow(profileId).then(function(){
+        return res.json({profile: req.profile.toProfileJSONFor(user)});
+      });
+    }).catch(next);
+    
+};

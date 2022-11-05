@@ -25,3 +25,10 @@ test('createUser',async () => {
     })
     expect(response.statusCode).toBe(200);
 })
+
+test('followUser',async () => {
+    const response = await request(app).post("/followUser", {
+        
+    })
+    expect(response.statusCode).toBe(200);
+})
