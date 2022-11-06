@@ -24,31 +24,38 @@ export const getNews = async (req, res) => {
     }
 }
 
-export const addFavNews = async (req,res) => {
-    const article = {title: req.query['title'],description: req.query['description'],body: req.query['body'],author: req.query['author'],url: req.query['url'],imageUrl: req.query['imageUrl']}
-    console.log(req.query)
-    
-    const newArticle = new NewsArticle(article);
-    newArticle.save()
-        .then(() => res.send("Article added to fav"))
-        .catch(err => res.json("Error: Not added" + err))
+// Creates a new article if it does not exist in database
+export const createArticle = async (req, res) => {
+    const articleInfo = {
+        title: req.query['title'],
+        description: req.query['description'],
+        body: req.query['body'],
+        author: req.query['author'],
+        url: req.query['url'],
+        imageUrl: req.query['imageUrl']
+    }
+
+    // Check if article exists with matching title and url
+    const article = await NewsArticle.findOneAndUpdate({
+        title: articleInfo.title,
+        url: articleInfo.url
+    },{
+        $setOnInsert: articleInfo
+    }, {upsert: true})
+
+
+    res.json("New article created!")
+    return article;
+}
+
+// Takes in the id of user, and article id
+// Then adds the article bookmark to the requested user
+export const addFavNews = async (req, res) => {
+
 
 }
 
-export const deleteAllArticles = async (req,res) => {
-
-    NewsArticle.deleteOne({_id:'6366b9551f7ebe5f7d0d14a6'}, (err,obj)=>{if(err) throw err;});
-
-
-}
-
-// id: this._id,
-//         title: this.title,
-//         description: this.description,
-//         body: this.body,
-//         author: this.author,
-//         url: this.url,
-//         imageUrl: this.imageUrl
+// Retrieves articles currently in the database
 export const getAllArticles = async (req,res) => {
     NewsArticle.find({}, )
       .then(articles => res.json(articles))

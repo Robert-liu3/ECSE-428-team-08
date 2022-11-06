@@ -1,13 +1,20 @@
 import { Router } from 'express';
-import { getNews, addFavNews, getAllArticles,deleteAllArticles } from '../controllers/newsController.js'
+import {getNews, addFavNews, getAllArticles, createArticle} from '../controllers/newsController.js'
 
 const router = Router();
 
-// Retrieves news based on category and query
+// Retrieves news based on category and query from newsapi
 router.get('/getNews', getNews);
+
+// Create a new article
+router.post('/createArticle', createArticle);
+
+// Create an article bookmark and add to user account
 router.post('/addFavNews', addFavNews);
+
+// Get all articles in the database
 router.get('/getAllArticles', getAllArticles);
-router.delete('/deleteNews', deleteAllArticles);
+
 export default router;
 
 
