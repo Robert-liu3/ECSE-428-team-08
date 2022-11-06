@@ -1,5 +1,6 @@
 import NewsAPI from "newsapi"
 import NewsArticle from "../models/NewsArticle.js"
+
 const newsapi = new NewsAPI('4e01875ffe8c42ef878ccd83a054fd00');
 
 // Uses newsapi to retrieve top headlines
@@ -24,8 +25,21 @@ export const getNews = async (req, res) => {
     }
 }
 
-// Creates a new article if it does not exist in database
-export const createArticle = async (req, res) => {
+// Helper method to create a new article if it does not exist in database
+// Article info should include title, url, body, description, and imageUrl
+const createArticle = async (articleInfo) => {
+    // Check if article exists with matching title and url
+    await NewsArticle.findOneAndUpdate({
+        title: articleInfo.title,
+        url: articleInfo.url
+    }, {
+        $setOnInsert: articleInfo
+    }, {upsert: true});
+}
+
+// Takes in the id of user, and article info
+// Then adds the article bookmark to the requested user
+export const addFavNews = async (req, res) => {
     const articleInfo = {
         title: req.query['title'],
         description: req.query['description'],
@@ -35,31 +49,17 @@ export const createArticle = async (req, res) => {
         imageUrl: req.query['imageUrl']
     }
 
-    // Check if article exists with matching title and url
-    const article = await NewsArticle.findOneAndUpdate({
-        title: articleInfo.title,
-        url: articleInfo.url
-    },{
-        $setOnInsert: articleInfo
-    }, {upsert: true})
+    // Create and store article in database if exists
+    await createArticle(articleInfo);
+    const articleToFind = await NewsArticle.findOne({title: req.query['title'], url: req.query['url']}) // find the article needed
 
-
-    res.json("New article created!")
-    return article;
+    // Create a bookmark and then add it to the user's list
+    res.json(articleToFind);
 }
 
-// Takes in the id of user, and article id
-// Then adds the article bookmark to the requested user
-export const addFavNews = async (req, res) => {
-
-
-}
-
-// Retrieves articles currently in the database
-export const getAllArticles = async (req,res) => {
+// Retrieves articles currently in the database (used mainly for debugging)
+export const getAllArticles = async (req, res) => {
     NewsArticle.find({}, )
       .then(articles => res.json(articles))
       .catch(err => res.json("Error: Not found " + err))
-  
-  
-  };
+};

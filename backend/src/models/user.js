@@ -56,14 +56,14 @@ UserSchema.methods.isFollowing = (id) => {
 
 // Add an article with specified id to the list of favourites
 UserSchema.methods.addFavouriteArticle = (id) => {
-  this.favouriteArticles.add(id);
+  this.likedArticles.add(id);
 
   return this.save();
 };
 
 // Remove an article from favourites list
 UserSchema.methods.removeFavouriteArticle = (id) => {
-    this.favouriteArticles.remove(id);
+    this.likedArticles.remove(id);
 
     return this.save();
 }
