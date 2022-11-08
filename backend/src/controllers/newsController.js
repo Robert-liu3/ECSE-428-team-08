@@ -46,7 +46,8 @@ export const addFavNews = async (req, res) => {
         body: req.query['body'],
         author: req.query['author'],
         url: req.query['url'],
-        imageUrl: req.query['imageUrl']
+        imageUrl: req.query['imageUrl'],
+        //id of user
     }
 
     // Create and store article in database if exists
@@ -62,4 +63,15 @@ export const getAllArticles = async (req, res) => {
     NewsArticle.find({}, )
       .then(articles => res.json(articles))
       .catch(err => res.json("Error: Not found " + err))
+};
+
+//clears the database, might be used to as a clear function for bookmarks later on
+ export const clearArticles = async (req, res) => { 
+
+     NewsArticle.deleteMany({}).then(function(){
+        console.log("Articles deleted in database"); // Success
+     }).catch(function(error){
+        console.log(error); // Failure
+     });
+
 };

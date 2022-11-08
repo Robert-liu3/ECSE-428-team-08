@@ -3,6 +3,7 @@ import {
     getNews,
     addFavNews,
     getAllArticles,
+    clearArticles,
 } from '../controllers/newsController.js'
 
 const router = Router();
@@ -15,6 +16,9 @@ router.post('/addFavNews', addFavNews);
 
 // Get all articles in the database
 router.get('/getAllArticles', getAllArticles);
+
+//clear articles in database
+router.delete('/clearArticles', clearArticles);
 
 export default router;
 
