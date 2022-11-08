@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-    getNews,
+    getNewsFromAPI,
     addFavNews,
     getAllArticles,
     clearArticles,
@@ -9,7 +9,7 @@ import {
 const router = Router();
 
 // Retrieves news based on category and query from newsapi
-router.get('/getNews', getNews);
+router.get('/getNews', getNewsFromAPI);
 
 // Create an article bookmark and add to user account
 router.post('/addFavNews', addFavNews);

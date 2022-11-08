@@ -55,8 +55,8 @@ UserSchema.methods.isFollowing = (id) => {
 };
 
 // Add an article with specified id to the list of favourites
-UserSchema.methods.addFavouriteArticle = (id) => {
-  this.likedArticles.add(id);
+UserSchema.methods.addFavouriteArticle = function(id) {
+  this.likedArticles.push(id);
 
   return this.save();
 };

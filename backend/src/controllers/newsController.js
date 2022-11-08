@@ -1,11 +1,13 @@
 import NewsAPI from "newsapi"
 import NewsArticle from "../models/NewsArticle.js"
+import user from "../models/user.js";
+import ArticleBookmark from "../models/ArticleBookmark.js";
 
 const newsapi = new NewsAPI('4e01875ffe8c42ef878ccd83a054fd00');
 
 // Uses newsapi to retrieve top headlines
 // Requires query param, optional for category and sources; used for filtering
-export const getNews = async (req, res) => {
+export const getNewsFromAPI = async (req, res) => {
     let articles = {};
     try {
         // Get articles from API based on query and optional category or sources
@@ -47,15 +49,24 @@ export const addFavNews = async (req, res) => {
         author: req.query['author'],
         url: req.query['url'],
         imageUrl: req.query['imageUrl'],
-        //id of user
     }
+    const userId = req.query['userId'];
 
-    // Create and store article in database if exists
+    // Create and store article in database if it doesn't exist yet
     await createArticle(articleInfo);
-    const articleToFind = await NewsArticle.findOne({title: req.query['title'], url: req.query['url']}) // find the article needed
+    const articleToFind = await NewsArticle.findOne({title: req.query['title'], url: req.query['url']}); // find the article needed
 
-    // Create a bookmark and then add it to the user's list
-    res.json(articleToFind);
+    // Get the user with provided id and verify they are not null
+    const userToUpdate = await user.findById(userId);
+
+    if (userToUpdate === null) res.json("Error: could not a user with the provided id.");
+    else {
+        // Create a bookmark and then add it to the user's list
+        const articleBookmark = new ArticleBookmark(articleToFind);
+        userToUpdate.addFavouriteArticle(articleBookmark);
+        res.json(userToUpdate);
+        console.log("Article successfully added.");
+    }
 }
 
 // Retrieves articles currently in the database (used mainly for debugging)
