@@ -60,18 +60,18 @@ export const addFavNews = async (req, res) => {
 
 // Retrieves articles currently in the database (used mainly for debugging)
 export const getAllArticles = async (req, res) => {
-    NewsArticle.find({}, )
+    NewsArticle.find({})
       .then(articles => res.json(articles))
-      .catch(err => res.json("Error: Not found " + err))
+      .catch(err => res.json("Error: " + err))
 };
 
 //clears the database, might be used to as a clear function for bookmarks later on
- export const clearArticles = async (req, res) => { 
+export const clearArticles = async (req, res) => {
 
-     NewsArticle.deleteMany({}).then(function(){
-        console.log("Articles deleted in database"); // Success
-     }).catch(function(error){
-        console.log(error); // Failure
-     });
+    NewsArticle.deleteMany({}).then(function() {
+        res.json("Articles deleted in database.");
+    }).catch(function(error){
+        res.json(error);
+    });
 
 };
