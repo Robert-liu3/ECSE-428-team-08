@@ -1,5 +1,6 @@
-//import { User } from "discord.js";
+
 import user from "../models/user.js";
+
 
 // For testing since cant access database
 const users = [];
@@ -49,7 +50,6 @@ export const getUser = async (req, res) => {
 export const createUser = async (req, res) => {
   console.log(req.body)
   const userInfo = req.body;
-  
   const newUser = new user(req.body);
   newUser.save()
     .then(() => res.send("user added"))
@@ -67,7 +67,10 @@ export const login = async (req, res) => {
   // console.log(req.params)
   const id = req.params.username;
 
+  
+
   // console.log(req.params.password)
+  
 
   user.find({id})
     .then(info => {
@@ -92,16 +95,19 @@ export const login = async (req, res) => {
  * function to check if follow a user
  */
  export const followUser = async (req, res, next) => {
-  var profileId = req.profile._id;
+   var profileId = req.params.username;
+  //  console.log(typeof req.body._id)
+
+
+
+  //  console.log(user.findById(req.body._id))
   
-    User.findById(req.payload.id).then(function(user){
-      if (!user) { return res.sendStatus(401); }
-  
-      return user.follow(profileId).then(function(){
-        return res.json({profile: req.profile.toProfileJSONFor(user)});
-      });
+    user.findById("adasdsa").then(User=>{
+      if (!User) { console.log("null") }
+      
+      return User.follow(req.body._id)
     }).catch(next);
-  console.log("followUser")
+ 
     
 };
 
@@ -116,7 +122,7 @@ export const login = async (req, res) => {
  export const unfollowUser = async (req, res, next) => {
   var profileId = req.profile._id;
   
-    User.findById(req.payload.id).then(function(user){
+    user.findById(req.payload.id).then(function(user){
       if (!user) { return res.sendStatus(401); }
   
       return user.unfollow(profileId).then(function(){
