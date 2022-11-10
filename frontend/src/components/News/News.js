@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
+<link rel="stylesheet" href="frontend\src\components\News\News.css"></link>
+
+
 function Header() {
   return (
     <div className="row">
@@ -16,6 +19,7 @@ function Header() {
     </div>
   );
 }
+
 
 // Will be used as a default to make cleaner
 const LargeArticleContainer = (props) => {
@@ -41,6 +45,11 @@ const LargeArticleContainer = (props) => {
   href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'></link>
           <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
+        </div>
+        <div>
+          <favorite-star>
+            <span class="favorite-star-character">&#x2605;</span>
+          </favorite-star>
         </div>
       </div>
     </div>
@@ -72,6 +81,11 @@ const SmallArticleContainer = (props) => {
             <div className="post-date">
               <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
             </div>
+            <div>
+              <favorite-star>
+              <span class="favorite-star-character">&#x2605;</span>
+              </favorite-star>
+            </div>
           </div>
         </div>
       </div>
@@ -79,14 +93,13 @@ const SmallArticleContainer = (props) => {
   );
 };
 
-function LatestSideBarArticle() {
+function FavoritedNews() {
   return (
     <div className="post mb-3 pb-1 border-bottom clearfix">
       <div className="post-media float-left mr-3"></div>
       <div className="post-header">
         <div className="post-title h6 font-weight-bold">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque.
+          Find your favorited news articles right here!
         </div>
       </div>
     </div>
@@ -170,24 +183,26 @@ export default function News() {
                   <div class="banner banner-sidebar mb-3 bg-light text-center"></div>
                   <div class="widget-posts gradient-back text-white bg-light px-3 pb-3 pt-1 shadow ">
                     <div class="widget-header">
-                      <div class="widget-title">Latest</div>
+                      <div class="widget-title">
+                        Favorites
+                      </div>
                     </div>
-
+                    
                     <ul style={{ listStyleType: "none" }}>
                       <li>
-                        <LatestSideBarArticle />
+                        <FavoritedNews />
                       </li>
 
                       <li>
-                        <LatestSideBarArticle />
+                        <FavoritedNews />
                       </li>
 
                       <li>
-                        <LatestSideBarArticle />
+                        <FavoritedNews />
                       </li>
 
                       <li>
-                        <LatestSideBarArticle />
+                        <FavoritedNews />
                       </li>
                     </ul>
                   </div>
