@@ -11,6 +11,7 @@ let ArticleBookmarkSchema = new mongoose.Schema({
 // Populate the newsArticle field in the database
 ArticleBookmarkSchema.methods.toJSONFor = () => {
     return {
+        id: this._id,
         newsArticle: this.newsArticle.toJSONFor(this.newsArticle)
     }
 };

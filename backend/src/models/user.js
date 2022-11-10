@@ -62,9 +62,9 @@ UserSchema.methods.addFavouriteArticle = function(id) {
 };
 
 // Remove an article from favourites list
-UserSchema.methods.removeFavouriteArticle = (id) => {
-    this.likedArticles.remove(id);
-
+UserSchema.methods.removeFavouriteArticle = function(id) {
+    const indexOfId = this.likedArticles.indexOf(id);
+    this.likedArticles.splice(indexOfId, 1);
     return this.save();
 }
 

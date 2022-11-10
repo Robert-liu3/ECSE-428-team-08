@@ -59,13 +59,33 @@ export const addFavNews = async (req, res) => {
     // Get the user with provided id and verify they are not null
     const userToUpdate = await user.findById(userId);
 
-    if (userToUpdate === null) res.json("Error: could not a user with the provided id.");
+    if (userToUpdate === null) res.json("Error: could not find a user with the provided id.");
     else {
         // Create a bookmark and then add it to the user's list
-        const articleBookmark = new ArticleBookmark(articleToFind);
+        const articleBookmark = await ArticleBookmark.create({ newsArticle: articleToFind });
+
         userToUpdate.addFavouriteArticle(articleBookmark);
         res.json(userToUpdate);
         console.log("Article successfully added.");
+    }
+}
+
+// Provided user id and article bookmark id
+export const removeFavNews = async (req, res) => {
+    // Get user by id first
+    const userToUpdate = await user.findById(req.query['userId']);
+
+    if (userToUpdate === null) res.json("Error: could not find a user with the provided id.");
+    else {
+       const articleBookmarkToRemove = await ArticleBookmark.findById(req.query['articleToRemoveId']);
+       if (articleBookmarkToRemove === null) res.json("Error: could not find the article bookmark to remove.");
+       else {
+           // Remove references of article bookmark
+           userToUpdate.removeFavouriteArticle(articleBookmarkToRemove._id);
+           await ArticleBookmark.findByIdAndDelete(articleBookmarkToRemove._id);
+           res.json(userToUpdate);
+           console.log("Article successfully removed.");
+       }
     }
 }
 
