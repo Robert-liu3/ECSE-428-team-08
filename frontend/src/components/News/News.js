@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import "./News.css"
+import SearchIcon from '@mui/icons-material/Search';
 
 function Header() {
   return (
@@ -14,6 +16,72 @@ function Header() {
         </div>
       </div>
     </div>
+  );
+}
+
+function SearchBar() {
+  const [queriedArticles, setQueriedArticles] = useState([]);
+  const articlesSave = [];
+
+  const handleSearch = (event) => {
+    async function newsSearch() {
+      let news = await axios.get("http://localhost:5000/news/getNews", {
+        params: {
+          query: event.target.value,
+          category: "business"
+        }
+      });
+      setQueriedArticles(news.data.articles.articles)
+    }
+    if (event.target.value.length != 0) {
+      newsSearch();
+    } else {
+      setQueriedArticles([])
+    }
+  }
+
+  const searchBarFocus = (event) => {
+    if(articlesSave.length != 0) {
+      setQueriedArticles(articlesSave)
+      articlesSave = []
+    } else {
+      setQueriedArticles([])
+    }
+  }
+
+  const searchBarFocusOut = (event) => {
+    if(event.target.value.length != 0) {
+      articlesSave = queriedArticles; 
+    }
+    setQueriedArticles([]);
+  }
+
+  return (
+    <div className="search">
+      <div className="search-bar">
+        <input type='text' placeholder='Search' onChange={handleSearch} onFocus={searchBarFocus} onBlur={searchBarFocusOut}/>
+      </div>
+      {queriedArticles.length != 0 && (
+        <div className="search-result">
+          {queriedArticles.map((value) => {
+            console.log(value.title)
+            return (
+              <div class="row">
+                <div class="column">
+                  <img className="img-fluid" src={value.urlToImage} />
+                </div>
+                <div class="column">
+                  <a className="articleSearched" href={value.url} target="_blank">
+                    <p>{value.title}</p>
+                  </a>
+                </div>
+                <hr className="search-divider"></hr>
+              </div>
+            );
+          })}
+        </div>
+      )}    
+      </div>
   );
 }
 
@@ -128,6 +196,7 @@ export default function News() {
         <div class="container">
           <div class="row">
             <div class="col-xl-9 col-lg-8">
+              <SearchBar />
               <Header />
 
               {/*First column of articles*/}
