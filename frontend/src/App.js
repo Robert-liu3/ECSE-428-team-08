@@ -9,14 +9,16 @@ import NotesList from "./components/Notes/NotesList.js"
 import './components/site_style.css'
 import { Route, Routes } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css"
+import {useState} from 'react';
 
 function App(props) {
+  const[buttonAddNotes, setButtonAddNotes] = useState(false);
     return (
         <>
             <NavBar/>
             <div className='container'>
               <main>
-                {/* <button onClick={() => setButtonAddNotes(true)}>Add Notes</button> */}
+                <button onClick={() => setButtonAddNotes(true)}>Add Notes</button>
               </main>
               <Routes>
                   <Route path="/" element={<Welcome/>}/>
