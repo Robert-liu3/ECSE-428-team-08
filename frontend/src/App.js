@@ -19,6 +19,7 @@ function App(props) {
             <div className='container'>
               <main>
                 <button onClick={() => setButtonAddNotes(true)}>Add Notes</button>
+                <Notes trigger={buttonAddNotes} setTrigger={setButtonAddNotes}></Notes>
               </main>
               <Routes>
                   <Route path="/" element={<Welcome/>}/>

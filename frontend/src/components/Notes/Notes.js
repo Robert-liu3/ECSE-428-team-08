@@ -19,7 +19,12 @@ function Notes(props) {
   const AddNote = ()=>{
     useEffect(() => {
       async function apiCall() {
-        await axios.post("http://localhost:5000/notes/");
+        await axios.post("http://localhost:5000/notes/", {
+          title: title,
+          notes: bodyText, 
+          creator: "1", 
+          section:"News"
+        });
       }
       apiCall();
     }, []);
@@ -62,7 +67,7 @@ function Notes(props) {
           
           </Grid>
         <Grid item sm={2}>
-          <button className="add_btn" onClick={AddNote}>Add</button>
+          <button className="add_btn" onClick={()=>AddNote}>Add</button>
           
         </Grid>
         

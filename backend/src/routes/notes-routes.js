@@ -1,7 +1,7 @@
 import express from 'express';
 
+import Notes from '../models/notes.js';
 const router = express.Router();
-
 let NOTES = [
     {
         id: 'n1',
@@ -9,18 +9,29 @@ let NOTES = [
         notes: 'Helloooo',
         creator: '1',
         section: 'News'
+    },
+    {
+        id: 'n2',
+        title: "Second Note",
+        notes: 'Hii',
+        creator: '1',
+        section: 'News'
     }
 ]
 //section: General, News, Stocks
 
 //Get all the notes from a specific user
-router.get('/user/:uid', (req, res, next) => {
+router.get('/user/:uid', async (req, res, next) => {
     console.log('GET Request for notes');
     const userId = req.params.uid;
 
-    const notes = NOTES.filter(n => {
-        return n.creator === userId;
-    });
+    // const notes = NOTES.filter(n => {
+    //     return n.creator === userId;
+    // });
+    let notes;
+
+    notes = await Notes.find({ creator: userId });
+    
 
     //Error handling, returns a message and a 404 error
     if (!notes || notes.length === 0) {
@@ -29,7 +40,7 @@ router.get('/user/:uid', (req, res, next) => {
         return next(error);
     }
 
-    res.json({notes});
+    res.json({notes: notes.map( note => note.toObject({ getters: true }))});
 });
 
 //Get all the notes from a specific section 
@@ -52,13 +63,14 @@ router.get('/section/:sid', (req, res, next) => {
 });
 
 //Get a specific note
-router.get('/:nid', (req, res, next) => {
+router.get('/:nid', async (req, res, next) => {
     console.log('GET Request for notes');
     const noteId = req.params.nid;
 
-    const note = NOTES.find(n => {
-        return n.id === noteId;
-    });
+    // const note = NOTES.find(n => {
+    //     return n.id === noteId;
+    // });
+    const note = await Notes.findById(noteId);
 
     //Error handling, returns a message and a 404 error
     if (!note) {
@@ -67,22 +79,32 @@ router.get('/:nid', (req, res, next) => {
         return next(error);
     }
 
-    res.json({note});
+    //res.json({note});
+    res.json({note:note.toObject( {getters: true }) });
 });
 
 //Add a note 
-router.post('/', (req, res, next) => {
-    const {notes, creator, section} = req.body;
+router.post('/', async (req, res, next) => {
+    const {title, notes, creator, section} = req.body;
 
-    const createdNote = {
-        notes, 
-        creator, 
-        section
-    };
+    // const createdNote = {
+    //     id:"n3",
+    //     title,
+    //     notes, 
+    //     creator, 
+    //     section
+    // };
+    // NOTES.push(createdNote);
+    const createdNote = new Notes({
+        title: title,
+        notes: notes, 
+        creator: creator, 
+        section: section
+    });
 
-    NOTES.push(createdNote);
+    await createdNote.save();
 
-    res.status(201).json({note: createdNote});
+    //res.status(201).json({note: createdNote});
 });
 
 //Update a note
