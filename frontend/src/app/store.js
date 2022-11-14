@@ -5,4 +5,6 @@ export default configureStore({
   reducer: {
     [stocksController.reducerPath]: stocksController.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(stocksController.middleware),
 });
