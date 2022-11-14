@@ -1,5 +1,6 @@
 import React from "react";
 import { AdvancedChart } from "react-tradingview-embed";
+import { Watchlist } from "./Watchlist";
 import "./styles.css";
 import { useGetStockDetailsQuery } from "../../services/stocksController";
 
@@ -11,7 +12,7 @@ export default function Charts() {
   console.log(data);
 
   return (
-    <div>
+    <div className="rowC">
       <div className="chart">
         <AdvancedChart
           widgetProps={{
@@ -29,6 +30,9 @@ export default function Charts() {
             container_id: "tradingview_chart_1",
           }}
         />
+      </div>
+      <div>
+        <Watchlist />
       </div>
     </div>
   );

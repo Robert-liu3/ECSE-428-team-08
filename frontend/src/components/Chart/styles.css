@@ -1,7 +1,11 @@
 .chart {
-    align-items: center;
-    margin: auto;
-    height: 500px;
-    width: 70%;
+  align-items: center;
+  margin: auto;
+  height: 500px;
+  width: 70%;
 }
 
+.rowC {
+  display: flex;
+  flex-direction: row;
+}
