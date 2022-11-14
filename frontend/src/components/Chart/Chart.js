@@ -1,10 +1,10 @@
 import React from "react";
 import { AdvancedChart } from "react-tradingview-embed";
 import "./styles.css";
-import { useGetStockDetailsQuery } from "../../../backend/src/controllers/stocksController";
+import { useGetStockDetailsQuery } from "../../services/stocksController";
 
 export default function Charts() {
-  const stock = "AAPL";
+  const stock = "aapl";
 
   const { data, isFetching } = useGetStockDetailsQuery(stock);
 

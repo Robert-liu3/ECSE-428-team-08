@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { stocksController } from "../controllers/stocksController";
+import { stocksController } from "../services/stocksController";
 
 export default configureStore({
   reducer: {
