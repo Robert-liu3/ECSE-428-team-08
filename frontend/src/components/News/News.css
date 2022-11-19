@@ -35,6 +35,9 @@ input[type=text]:focus {
     box-shadow: rgba(0,0,0, 0.35) 0px 5px 15px;
     overflow:hidden;
     overflow-y:auto;
+    position:relative;
+    box-sizing: border-box;
+    z-index: 10;
 }
 
 .search-result::-webkit-scrollbar {
@@ -57,5 +60,6 @@ input[type=text]:focus {
     width:100%;
     margin-left:0;
     padding: 1px 1px;
-    border-width: 0;
+    height: 0.01;
+    background-color: black;
 }

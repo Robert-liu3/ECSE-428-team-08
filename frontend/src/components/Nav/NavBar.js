@@ -8,7 +8,7 @@ export default function NavBar() {
         Stock Market Exchange App
       </Link>
       <ul>
-        <CustomTab to="/news">News</CustomTab>
+        <CustomTab to="/news" id="news_tab_selector" >News</CustomTab>
       </ul>
     </nav>
   );

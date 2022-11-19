@@ -1,4 +1,4 @@
-const { Builder, By, Key, until } = require("selenium-webdriver");
+const { Builder, By, Actions, Key, until } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 
 const screen_obj = {
@@ -54,3 +54,22 @@ test("getTicker", async () => {
   await driver.quit();
 }); 
 //test
+
+test("searchBarTyping", async () => {
+  let driver = await setupChromeDriver();
+  
+  driver.navigate().to("http://localhost:3000/news");
+  
+  let search_bar = await driver.findElement(By.id("search_bar_input"));
+  await search_bar.sendKeys("loan")
+  let search_bar_text = await search_bar.getAttribute("value")
+  expect(search_bar_text).toBe("loan")
+
+  for (let i = 0; i < 4; i++) {
+    await search_bar.sendKeys(Key.BACK_SPACE)
+  }
+  search_bar_text = await search_bar.getAttribute("value")
+  expect(search_bar_text).toBe("")
+  
+  await driver.quit();
+}); 

@@ -21,7 +21,8 @@ function Header() {
 
 function SearchBar() {
   const [queriedArticles, setQueriedArticles] = useState([]);
-  const articlesSave = [];
+  const [searchBarActive, setSearchBarActive] = useState(0);
+  var articlesSave = [];
 
   const handleSearch = (event) => {
     async function newsSearch() {
@@ -41,47 +42,41 @@ function SearchBar() {
   }
 
   const searchBarFocus = (event) => {
-    if(articlesSave.length != 0) {
-      setQueriedArticles(articlesSave)
-      articlesSave = []
+    if(event.target.value.length != 0) {
+      handleSearch(event)
     } else {
-      setQueriedArticles([])
+      setQueriedArticles([]);
     }
+    setSearchBarActive(1);
   }
 
-  const searchBarFocusOut = (event) => {
-    if(event.target.value.length != 0) {
-      articlesSave = queriedArticles; 
-    }
-    setQueriedArticles([]);
-  }
 
   return (
     <div className="search">
       <div className="search-bar">
-        <input type='text' placeholder='Search' onChange={handleSearch} onFocus={searchBarFocus} onBlur={searchBarFocusOut}/>
+          <input id="search_bar_input" type='text' placeholder='Search' onChange={handleSearch} onFocus={searchBarFocus}/>
       </div>
-      {queriedArticles.length != 0 && (
-        <div className="search-result">
-          {queriedArticles.map((value) => {
-            console.log(value.title)
-            return (
-              <div class="row">
-                <div class="column">
-                  <img className="img-fluid" src={value.urlToImage} />
+      <div id='search_results_container'>
+        {queriedArticles.length != 0 && searchBarActive != 0 && (
+          <div className="search-result" >
+            {queriedArticles.map((value) => {
+              return (
+                <div class="row">
+                    <div class="col-auto">
+                      <img className="img-fluid" src={value.urlToImage} width="100" />
+                    </div>
+                    <div class="col">
+                      <a className="articleSearched" href={value.url} target="_blank">
+                        <p>{value.title}</p>
+                      </a>
+                    </div>
                 </div>
-                <div class="column">
-                  <a className="articleSearched" href={value.url} target="_blank">
-                    <p>{value.title}</p>
-                  </a>
-                </div>
-                <hr className="search-divider"></hr>
-              </div>
-            );
-          })}
-        </div>
-      )}    
-      </div>
+              );
+            })}
+          </div>
+        )} 
+      </div>  
+    </div>
   );
 }
 
@@ -198,7 +193,6 @@ export default function News() {
             <div class="col-xl-9 col-lg-8">
               <SearchBar />
               <Header />
-
               {/*First column of articles*/}
               <div class="row">
                 <div class="col-12 col-md-5 mb-3 mb-md-0">
