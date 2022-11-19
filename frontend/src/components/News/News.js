@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-
-<link rel="stylesheet" href="frontend\src\components\News\News.css"></link>
-
+import Heart from "react-heart"
 
 function Header() {
   return (
@@ -20,36 +18,65 @@ function Header() {
   );
 }
 
+// Functions for adding and removing an article
+async function addToFavorite(articleInfo, userId) {
+  // Only add if the button is active (i.e. heart is colored)
+  await axios.post("http://localhost:5000/news/addFavNews",null, {
+    params: {
+      title: articleInfo.articleTitle,
+      description: articleInfo.articleDescription,
+      body: articleInfo.articleBody,
+      author: articleInfo.articleAuthor,
+      url: articleInfo.articleUrl,
+      imageUrl: articleInfo.articleImage,
+      userId: userId
+    }
+  })
+}
 
 // Will be used as a default to make cleaner
 const LargeArticleContainer = (props) => {
-  const articleImage = props.imageUrl;
-  const articleTitle = props.title;
-  const articleDescription = props.description;
-  const articleUrl = props.articleUrl;
+  // Variables for article info
+  let articleInfo = {
+    articleTitle: props.title,
+    articleDescription: props.description,
+    articleBody: props.articleBody,
+    articleAuthor: props.author,
+    articleUrl: props.articleUrl,
+    articleImage: props.imageUrl,
+  }
+
+  // // Will be used temporarily to get the user logged in
+  const userId = localStorage.getItem("currentUser")
+
+  const [active, setActive] = useState(false)
 
   return (
     <div className="post mb-3 pb-3 border-bottom">
       <div className="post-media">
-        <a href={articleUrl}>
-          <img className="img-fluid" src={articleImage} />
+        <a href={articleInfo.articleUrl}>
+          <img className="img-fluid" src={articleInfo.articleImage}  alt={"https://u.osu.edu/duska.7/files/2017/04/stock-market-3-21gyd1b.jpg"}/>
         </a>
       </div>
       <div className="post-header">
-        <div className="post-title h4 font-weight-bold">{articleTitle}</div>
+        <div className="post-title h4 font-weight-bold">{articleInfo.articleTitle}</div>
       </div>
       <div className="post-body">
-        <div className="post-content">{articleDescription}</div>
+        <div className="post-content">{articleInfo.articleDescription}</div>
         <div className="post-date">
         <link 
   href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'></link>
           <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
         </div>
-        <div>
-          <favorite-star>
-            <span class="favorite-star-character">&#x2605;</span>
-          </favorite-star>
+        <div style={{ display: "flex", width: "1.5rem" }}>
+          <Heart isActive={active} onClick={() => {
+            // Only sets active once for now
+            if (!active) {
+              setActive(true);
+              addToFavorite(articleInfo, userId).catch(error => console.log(error));
+            }
+          }}/>
         </div>
       </div>
     </div>
@@ -62,13 +89,15 @@ const SmallArticleContainer = (props) => {
   const articleDescription = props.description;
   const articleUrl = props.articleUrl;
 
+  const [active, setActive] = useState(false)
+
   return (
     <div className="post mb-3 pb-3 border-bottom">
       <div className="row">
         <div className="col-auto">
           <div className="post-media ">
             <a href={articleUrl}>
-              <img className="img-fluid" src={articleImage} width="100" />
+              <img className="img-fluid" src={articleImage} width="100"  alt={"https://u.osu.edu/duska.7/files/2017/04/stock-market-3-21gyd1b.jpg"}/>
             </a>
           </div>
         </div>
@@ -81,10 +110,8 @@ const SmallArticleContainer = (props) => {
             <div className="post-date">
               <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
             </div>
-            <div>
-              <favorite-star>
-              <span class="favorite-star-character">&#x2605;</span>
-              </favorite-star>
+            <div style={{ display: "flex", width: "1.5rem" }}>
+              <Heart isActive={active} onClick={() => setActive(!active)}/>
             </div>
           </div>
         </div>
@@ -154,6 +181,8 @@ export default function News() {
                           title={article.title}
                           description={article.description}
                           articleUrl={article.url}
+                          articleBody={article.body}
+                          author={article.author}
                         />
                       </li>
                     ))}
