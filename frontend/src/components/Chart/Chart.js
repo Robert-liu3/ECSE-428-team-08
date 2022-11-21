@@ -1,15 +1,14 @@
 import React from "react";
 import { AdvancedChart } from "react-tradingview-embed";
-import { Watchlist } from "./Watchlist";
+import Watchlist from "./Watchlist/Watchlist";
 import "./styles.css";
-import { useGetStockDetailsQuery } from "../../services/stocksController";
 
 export default function Charts() {
-  const stock = "aapl";
+  // const stock = "aapl";
 
-  const { data, isFetching } = useGetStockDetailsQuery(stock);
+  // const { data, isFetching } = useGetStockDetailsQuery(stock);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="rowC">
