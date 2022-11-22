@@ -2,15 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import Heart from "react-heart"
 
-let newsArticles = []
+let newsArticles = [{title: "New Article", description: "Description", body: "Bodyodyody", author: "Author", url: "Url"}]
 
 function Header() {
   // Default search is for "stocks"
   const [query, setQuery] = useState("stocks");
-
-  // // Variable will store the articles obtained from api
-  // const [articles, setArticles] = useState([]);
-
 
   // Retrieve news articles
   async function apiCall() {
@@ -35,6 +31,8 @@ function Header() {
           </div>
         </div>
       </div>
+
+      {/*Search bar*/}
       <div className="input-group mb-3">
         <div className="input-group-prepend">
           <button className="btn btn-outline-secondary" type="button" onClick={apiCall}>
@@ -84,7 +82,7 @@ const LargeArticleContainer = (props) => {
     <div className="post mb-3 pb-3 border-bottom">
       <div className="post-media">
         <a href={articleInfo.articleUrl}>
-          <img className="img-fluid" src={articleInfo.articleImage}  alt={"https://u.osu.edu/duska.7/files/2017/04/stock-market-3-21gyd1b.jpg"}/>
+          <img className="img-fluid" src={articleInfo.articleImage}  alt=""/>
         </a>
       </div>
       <div className="post-header">
@@ -181,17 +179,13 @@ export default function News() {
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      ></link>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
 
       <section className="section">
         <div className="container">
           <div className="row">
             <div className="col-xl-9 col-lg-8">
               <Header />
-
 
               {/*First column of articles*/}
               <div className="row">
