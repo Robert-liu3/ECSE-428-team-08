@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Heart from "react-heart"
 
-let newsArticles = [{title: "New Article", description: "Description", body: "Bodyodyody", author: "Author", url: "Url"}]
+// Outside function for updating state of articles in containers
+let updateNewsArticles;
 
 function Header() {
   // Default search is for "stocks"
@@ -16,8 +17,7 @@ function Header() {
         category: "business"
       }
     });
-    console.log(news.data)
-    newsArticles = news.data.articles.articles;
+    updateNewsArticles(news.data.articles.articles);
   }
 
   return (
@@ -173,6 +173,13 @@ function FavoritedNews() {
 }
 
 export default function News() {
+  // Local variables for news articles retrieved
+  const [newsArticles, localUpdateNewsArticles] = useState([]);
+
+  useEffect(() => {
+    updateNewsArticles = localUpdateNewsArticles; // pass setter to outside function
+  }, [])
+
   // Split articles into sets that need to be displayed
   const topArticles = newsArticles.slice(0, 4);
   const smallerArticles = newsArticles.slice(4, 10);
