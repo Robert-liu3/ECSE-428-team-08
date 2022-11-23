@@ -9,7 +9,7 @@ let UserSchema = new mongoose.Schema({
     image: String,
     password: String,
     status: Boolean,// true-> login, false-> not login
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    following: [{ type: mongoose.Schema.Types.String, ref: 'User' }]
 },
 
 
@@ -32,19 +32,28 @@ let UserSchema = new mongoose.Schema({
   // };
 
   // Follow a user with id 'id' NOTE: cannot use arrow function because of this property
-  UserSchema.methods.follow = function(id){
+  UserSchema.methods.follow = async function(id){
 
-    console.log(this.following)
-    // console.log("dasdas")
+    // console.log(this.following)
+  
 
     // console.log(mongoose.model('User').find({_id:"Noah2"}))
-    // console.log
+  
     // if(this.following.indexOf(id) === -1){
-    //   this.following.push(id);
+     console.log(id);
+
+
+    
+
+    this.following.push(id);
+
+    console.log(this.firstName)
+    console.log(this.following)
+
     // }
   
-    // return this.save();
-  };
+    return await this.save();
+   };
 
   // Unfollow a user with id 'id'
   UserSchema.methods.unfollow = (id) => {
