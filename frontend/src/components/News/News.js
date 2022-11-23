@@ -130,7 +130,7 @@ const SmallArticleContainer = (props) => {
         <div className="col-auto">
           <div className="post-media ">
             <a href={articleInfo.articleUrl}>
-              <img className="img-fluid" src={articleInfo.articleImage} width="100"  alt={"https://u.osu.edu/duska.7/files/2017/04/stock-market-3-21gyd1b.jpg"}/>
+              <img className="img-fluid" src={articleInfo.articleImage} width="100"  alt=""/>
             </a>
           </div>
         </div>
