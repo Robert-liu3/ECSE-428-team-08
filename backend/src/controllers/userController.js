@@ -27,7 +27,7 @@ export const getUser = async (req, res) => {
   console.log(req.params.username);
   await user
     .findById(req.params.username)
-    .then((specificUser) => {})
+    .then((specificUser) => res.send(specificUser))
     .catch((err) => res.json("Error: " + err));
 };
 
@@ -91,7 +91,7 @@ export const followUser = async (req, res, next) => {
       }
 
       res.send("dasda");
-      return User.follow(User);
+      return User.follow(req.body._id);
     })
     .catch(next);
 };
