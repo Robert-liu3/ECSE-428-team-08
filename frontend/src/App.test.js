@@ -1,6 +1,5 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
-const chromedriver = require("chromedriver");
 const jestSetup = require("./jest.setup");
 
 const screen_obj = {
@@ -77,10 +76,6 @@ test("changeTicker", async () => {
       )
     )
     .then(async (el) => {
-      console.log("Header toolbar:", el);
-
-      //   await el.click();
-
       await driver.actions().click(el).perform();
     });
 
@@ -95,8 +90,6 @@ test("changeTicker", async () => {
 
   // Change the ticker symbol by entering a new symbol in the symbol search bar
   let inputElement = await driver.findElement(By.xpath("//input[starts-with(@class,'search-')]"))
-  console.log("Input Element:", inputElement)
-  console.log('Placeholder:', await inputElement.getAttribute('placeholder'))
   await inputElement.sendKeys("TSLA", Key.RETURN)
   await driver.sleep(5000) // wait for the page to load
 
@@ -114,7 +107,6 @@ test("changeTicker", async () => {
     )
     .then(async (el) => {
       ticker = await el.getText();
-      console.log("New ticker:", ticker);
     });
   expect(ticker).toBe("TSLA");
 
