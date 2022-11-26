@@ -9,6 +9,7 @@ test('Get general news', async() => {
     expect(response.body.articles.status).toBe("ok")
 })
 
+
 // Test to verify if function gives error for non existent endpoint
 test('Get general news from wrong endpoint', async() => {
     const response = await request(app).get("/news/getNews/WrongEndpoint")
@@ -28,3 +29,5 @@ test('Get source of news', async() => {
     expect(response.statusCode).toBe(200)
     expect(response.body.articles.articles[0].source.name).toBe("BBC News")
 })
+
+
