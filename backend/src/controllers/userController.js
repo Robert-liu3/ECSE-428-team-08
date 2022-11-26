@@ -1,3 +1,4 @@
+import user from "../models/user.js";
 import User from "../models/user.js";
 
 // For testing since cant access database
@@ -53,20 +54,24 @@ export const createUser = async (req, res) => {
  * function to get check the login credentials of a user
  */
 export const login = async (req, res) => {
+  console.log("I am loginf")
   // console.log(req.params)
-  const id = req.params.username;
+  const userId = req.params.username;
 
-  // console.log(req.params.password)
+  console.log(userId)
 
-  User.find({ id })
+
+
+  User.find({ userId })
     .then((info) => {
+       console.log(info)
       if (info[1].password == req.params.password) {
-        res.json("Correct");
+        res.send("Correct "+ userId);
       } else {
-        res.json("Wrong password or Username");
+        res.send("Wrong password or Username");
       }
     })
-    .catch((err) => res.json("Error: " + err + "dasdadasd"));
+    .catch((err) => res.json("Error: " + err ));
 };
 
 /**
