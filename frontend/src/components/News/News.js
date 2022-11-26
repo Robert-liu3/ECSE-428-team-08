@@ -178,7 +178,7 @@ const FavoritedNews = (props) => {
       setArticleInfo(articleFromBm.data);
     }
 
-    getArticleInfo();
+    getArticleInfo().catch(error => console.log(error));
   }, [articleInfo, bookmark])
 
   return (
@@ -291,25 +291,26 @@ export default function News() {
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-lg-4">
+            <div className="col-xl-3 col-lg-10">
               <div className="sticky-sidebar">
                 <div className="sticky-inside">
                   <div className="banner banner-sidebar mb-3 bg-light text-center"></div>
                   <div className="widget-posts gradient-back bg-light px-3 pb-3 pt-1 shadow ">
                     <div className="widget-header">
-                      <div className="widget-title">
+                      <div className="widget-title font-weight-bold">
                         Favorites
                       </div>
                     </div>
-
-                    {/*Favorited news articles*/}
-                    <ul style={{ listStyleType: "none" }}>
-                      {favArticleBms.map((articleBm) => (
-                          <li>
-                            <FavoritedNews bookmark={articleBm}/>
-                          </li>
-                      ))}
-                    </ul>
+                    <div className="overflow-auto h-250 align-items-center pre-scrollable">
+                      {/*Favorited news articles*/}
+                      <ul style={{ listStyleType: "none" }}>
+                        {favArticleBms.map((articleBm) => (
+                            <li>
+                              <FavoritedNews bookmark={articleBm}/>
+                            </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>

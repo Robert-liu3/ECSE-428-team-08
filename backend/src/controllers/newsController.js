@@ -114,7 +114,17 @@ export const getArticleBookmarksByUser = async (req, res) => {
     return inputUser.likedArticles;
 }
 
-//clears the database, might be used to as a clear function for bookmarks later on
+// Return the article information from the bookmark provided
+export const getArticleFromBm = async (req, res) => {
+    const articleBm = req.query['articleBm']
+    if (articleBm === null || articleBm === undefined) return null;
+
+    const article = await NewsArticle.findById(articleBm.newsArticle);
+    res.json(article);
+    return article;
+}
+
+// Clears the database, might be used to as a clear function for bookmarks later on
 export const clearArticles = async (req, res) => {
 
     NewsArticle.deleteMany({}).then(function() {

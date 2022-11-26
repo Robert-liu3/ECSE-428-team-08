@@ -4,9 +4,10 @@ import {
     addFavNews,
     getAllArticles,
     clearArticles,
-    removeFavNews, getArticleBookmarksByUser
+    removeFavNews,
+    getArticleBookmarksByUser,
+    getArticleFromBm
 } from '../controllers/newsController.js'
-import NewsArticle from "../models/NewsArticle.js";
 
 const router = Router();
 
@@ -29,14 +30,7 @@ router.delete('/clearArticles', clearArticles);
 router.get("/getArticleBmsByUser", getArticleBookmarksByUser)
 
 // Get article from bookmark
-router.get("/getArticleFromBm", async (req, res) => {
-    const articleBm = req.query['articleBm']
-    if (articleBm === null || articleBm === undefined) return null;
-
-    const article = await NewsArticle.findById(articleBm.newsArticle);
-    res.json(article);
-    return article;
-})
+router.get("/getArticleFromBm", getArticleFromBm)
 
 export default router;
 
