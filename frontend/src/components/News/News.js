@@ -173,7 +173,7 @@ const FavoritedNews = (props) => {
   useEffect(() => {
     async function getArticleInfo () {
       const articleFromBm = await axios.get("http://localhost:5000/news/getArticleFromBm", {
-        params: { articleBm: bookmark}
+        params: { articleBm: bookmark }
       })
       setArticleInfo(articleFromBm.data);
     }
@@ -181,6 +181,18 @@ const FavoritedNews = (props) => {
     getArticleInfo().catch(error => console.log(error));
   }, [articleInfo, bookmark])
 
+  if (articleInfo === null) return (
+      <div>
+        <div>Could not load article.</div>
+        <div>
+          <button className="btn btn-light" type="button" onClick={() => {
+            removeFromFavorite(bookmark._id, userId).then(r => console.log("Removed successfully."))
+          }}>
+            <img src="https://icons.getbootstrap.com/assets/icons/trash.svg" alt=""></img>
+          </button>
+        </div>
+      </div>
+  )
   return (
     <div className="post mb-3 pb-1 border-bottom clearfix">
       <div className="post-media float-left mr-3"></div>
