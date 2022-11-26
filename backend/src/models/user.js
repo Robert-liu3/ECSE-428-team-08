@@ -1,20 +1,21 @@
 import mongoose from "mongoose";
 
 let UserSchema = new mongoose.Schema(
-  {
-    firstName: String,
-    lastName: String,
-    email: String,
-    _id: String,
-    profileBio: String,
-    image: String,
-    password: String,
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    watchlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Stock" }],
-  },
-  {
-    timestamps: true,
-  }
+    {
+        firstName: String,
+        lastName: String,
+        email: String,
+        _id: String,
+        profileBio: String,
+        image: String,
+        password: String,
+        following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        watchlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Stock" }],
+        likedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ArticleBookmark'}]
+    },
+    {
+        timestamps: true
+    }
 );
 
 UserSchema.method.toProfileJSONFor = (user) => {
@@ -33,11 +34,12 @@ UserSchema.methods.toProfileJSONFor = (user) => {
     image:
       this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
     following: user ? user.isFollowing(this._id) : false,
-  };
+    };
 };
+
 // Follow a user with id 'id'
 UserSchema.methods.follow = (id) => {
-  this.following.add(id);
+    this.following.add(id);
 
   return this.save();
 };
@@ -56,5 +58,20 @@ UserSchema.methods.isFollowing = (id) => {
   });
 };
 
+// Add an article with specified id to the list of favourites
+UserSchema.methods.addFavouriteArticle = function(id) {
+  this.likedArticles.push(id);
+
+  return this.save();
+};
+
+// Remove an article from favourites list
+UserSchema.methods.removeFavouriteArticle = function(id) {
+    const indexOfId = this.likedArticles.indexOf(id);
+    this.likedArticles.splice(indexOfId, 1);
+    return this.save();
+}
+
+  // Remove an article from favourites list
 const user = mongoose.model("User", UserSchema);
 export default user;

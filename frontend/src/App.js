@@ -4,6 +4,7 @@ import Charts from "./components/Chart/Chart.js";
 import News from "./components/News/News.js";
 import UserLogin from "./components/UserLogin/UserLogin.js";
 import UserSignUp from "./components/UserSignUp/UserSignUp.js";
+import FriendList from './components/FriendList/FriendList.js'
 import "./components/site_style.css";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,6 +20,7 @@ function App(props) {
           <Route path="/news" element={<News />} />
           <Route path="/login" element={<UserLogin />} />
           <Route path="/signup" element={<UserSignUp />} />
+          <Route path="/friendList" element={<FriendList/>}/>
         </Routes>
       </div>
     </>
