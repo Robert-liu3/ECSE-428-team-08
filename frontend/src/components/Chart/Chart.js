@@ -26,6 +26,19 @@ export default function Charts() {
             enable_publishing: false,
             hide_side_toolbar: false,
             allow_symbol_change: true,
+            watchlist: [
+              "CME_MINI:NQ1!",
+              "CME_MINI:ES1!",
+              "AAPL",
+              "GOOGL",
+              "TSLA",
+              "NVDA",
+              "AMD",
+              "AMZN",
+              "META",
+              "MSFT",
+              "WMT",
+            ],
             container_id: "tradingview_chart_1",
           }}
         />
