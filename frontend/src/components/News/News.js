@@ -5,6 +5,9 @@ import Heart from "react-heart"
 // Outside function for updating state of articles in containers
 let updateNewsArticles;
 
+// Get the user logged in
+const userId = sessionStorage.getItem("currentUser")
+
 function Header() {
   // Default search is for "stocks"
   const [query, setQuery] = useState("stocks");
@@ -73,9 +76,6 @@ const LargeArticleContainer = (props) => {
     articleImage: props.imageUrl,
   }
 
-  // Will be used temporarily to get the user logged in
-  const userId = localStorage.getItem("currentUser")
-
   const [active, setActive] = useState(false)
 
   return (
@@ -121,9 +121,6 @@ const SmallArticleContainer = (props) => {
 
   const [active, setActive] = useState(false)
 
-  // Will be used temporarily to get the user logged in
-  const userId = localStorage.getItem("currentUser")
-
   return (
     <div className="post mb-3 pb-3 border-bottom">
       <div className="row">
@@ -159,13 +156,40 @@ const SmallArticleContainer = (props) => {
   );
 };
 
-function FavoritedNews() {
+const FavoritedNews = (props) => {
+
+  // Variables for article info
+  let articleInfo = {
+    articleTitle: props.title,
+    articleDescription: props.description,
+    articleAuthor: props.author,
+    articleUrl: props.articleUrl,
+    articleImage: props.imageUrl,
+  }
+
   return (
     <div className="post mb-3 pb-1 border-bottom clearfix">
       <div className="post-media float-left mr-3"></div>
       <div className="post-header">
         <div className="post-title h6 font-weight-bold">
-          Find your favorited news articles right here!
+          <div className="col-auto">
+            <div className="post-media ">
+              <a href={articleInfo.articleUrl}>
+                <img className="img-fluid" src={articleInfo.articleImage} width="100"  alt=""/>
+              </a>
+            </div>
+          </div>
+          <div className="col">
+            <div className="post-header">
+              <div className="post-title h5 font-weight-bold">{articleInfo.articleTitle}</div>
+            </div>
+            <div className="post-body">
+              <div className="post-content">{articleInfo.articleDescription}</div>
+              <div className="post-date">
+                <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -183,6 +207,22 @@ export default function News() {
   // Split articles into sets that need to be displayed
   const topArticles = newsArticles.slice(0, 4);
   const smallerArticles = newsArticles.slice(4, 10);
+
+  // Get user's current favorite articles
+  const [favArticles, setFavArticles] = useState([]);
+
+  useEffect(() => {
+    async function getFavArticles() {
+      let likedArticles = await axios.get("http://localhost:5000/news/getArticlesByUser", {
+        params: {
+          userId: userId
+        }
+      })
+      setFavArticles(likedArticles.data);
+    }
+
+    getFavArticles();
+  }, [favArticles])
 
   return (
     <>
@@ -236,29 +276,23 @@ export default function News() {
               <div className="sticky-sidebar">
                 <div className="sticky-inside">
                   <div className="banner banner-sidebar mb-3 bg-light text-center"></div>
-                  <div className="widget-posts gradient-back text-white bg-light px-3 pb-3 pt-1 shadow ">
+                  <div className="widget-posts gradient-back bg-light px-3 pb-3 pt-1 shadow ">
                     <div className="widget-header">
                       <div className="widget-title">
                         Favorites
                       </div>
                     </div>
-                    
                     <ul style={{ listStyleType: "none" }}>
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
+                      {favArticles.map((article) => (
+                          <li>
+                            <FavoritedNews
+                                imageUrl={article.imageUrl}
+                                title={article.title}
+                                description={article.description}
+                                articleUrl={article.url}
+                                author={article.author}/>
+                          </li>
+                      ))}
                     </ul>
                   </div>
                 </div>

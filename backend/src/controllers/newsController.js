@@ -100,6 +100,8 @@ export const getArticlesByUser = async (req, res) => {
     const inputUser = await user.findById(req.query['userId'])
     let likedArticles = [];
 
+    if (inputUser === null) return null;
+
     // Push each article into an array
     for (let i = 0; i < inputUser.likedArticles.length; i++) {
         const bmId = inputUser.likedArticles[i]
