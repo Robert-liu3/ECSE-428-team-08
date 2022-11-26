@@ -18,41 +18,37 @@ let UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.methods.toProfileJSONFor = (user) => {
+UserSchema.methods.toProfileJSONFor = function () {
   return {
-    firstName: this.firstName,
-    lastName: this.lastName,
-    email: this.email,
-    _id: this._id,
-    profileBio: this.profileBio,
-    image: this.image,
-    status: this.status,
-    following: user ? user.isFollowing(this._id) : false
-  }
+     test : this.email,
+     firstName: this.firstName,
+     lastName: this.lastName,
+     email: this.email,
+     _id: this._id,
+     profileBio: this.profileBio,
+     image: this.image,
+     status: this.status,
+     following: user ? user.isFollowing(this._id) : false
+  };
 };
 
 // Follow a user with id 'id' NOTE: cannot use arrow function because of this property
 UserSchema.methods.follow = async function (id) {
-
-
-  
-console.log("rqwedeasdasdasd")
-
   this.following.push(id);
   return await this.save();
 };
 
 // Unfollow a user with id 'id'
-UserSchema.methods.unfollow = (id) => {
-  this.following.remove(id);
+UserSchema.methods.unfollow = function (id) {
+  this.following.remove(id._id);
 
   return this.save();
 };
 
 // Whether this user is following some other user
-UserSchema.methods.isFollowing = (id) => {
+UserSchema.methods.isFollowing = function (id) {
   return this.following.some((followingId) => {
-    return followingId.toString === id.toString;
+    return followingId === id._id;
   });
 };
 

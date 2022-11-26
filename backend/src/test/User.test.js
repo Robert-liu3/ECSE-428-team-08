@@ -9,8 +9,10 @@ import {getUser} from "../controllers/userController.js"
 
 test('loginUser',async () => {
     const response = await request(app).get("/login/Noah2/123")
-    console.log( response.text)
-    expect(response.text).toBe("\"Correct\"");
+    console.log(typeof response.text)
+    const result = response.text.split(" ")
+    console.log(result[0])
+    expect(result[0]).toBe("Correct");
 })
 
 test('createUser',async () => {
@@ -26,9 +28,11 @@ test('createUser',async () => {
     expect(response.statusCode).toBe(200);
 })
 
-test('followUser',async () => {
-    const response = await request(app).post("/followUser", {
+
+
+// test('followUser',async () => {
+//     const response = await request(app).post("/followUser", {
         
-    })
-    expect(response.statusCode).toBe(200);
-})
+//     })
+//     expect(response.statusCode).toBe(200);
+// })

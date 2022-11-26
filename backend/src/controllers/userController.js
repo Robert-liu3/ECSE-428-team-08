@@ -54,24 +54,16 @@ export const createUser = async (req, res) => {
  * function to get check the login credentials of a user
  */
 export const login = async (req, res) => {
-  console.log("I am loginf")
-  // console.log(req.params)
   const userId = req.params.username;
-
-  console.log(userId)
-
-
-
-  User.find({ userId })
+  await User.find({ userId })
     .then((info) => {
-       console.log(info)
       if (info[1].password == req.params.password) {
-        res.send("Correct "+ userId);
+        res.send("Correct " + userId);
       } else {
         res.send("Wrong password or Username");
       }
     })
-    .catch((err) => res.json("Error: " + err ));
+    .catch((err) => res.json("Error: " + err));
 };
 
 /**
@@ -88,18 +80,18 @@ export const followUser = async (req, res, next) => {
   await User.findById(req.body._id)
     .then(async (user) => {
       if (!user) {
-        res.send(404, "user is not found");
+        return res.send(404, "user is not found");
       }
 
       await User.findById(profileId)
         .then((currentUser) => {
           console.log(currentUser.following.length);
           // make sure user can follow the same user twice
-          if (currentUser.following.includes(user._id)) {
+          if (currentUser.isFollowing(user)) {
             return res.sendStatus(401);
           }
           currentUser.follow(user);
-          return res.send("follow " + req.body._id + " successfully");
+          return res.send("followed " + req.body._id + " successfully");
         })
         .catch(next);
     })
@@ -115,17 +107,20 @@ export const followUser = async (req, res, next) => {
  * function to unfollow a user
  */
 export const unfollowUser = async (req, res, next) => {
-  var profileId = req.profile._id;
+  var profileId = req.params.username;
 
-  User.findById(req.payload.id)
-    .then(function (user) {
+  User.findById(req.body._id)
+    .then(async (user) => {
       if (!user) {
         return res.sendStatus(401);
       }
 
-      return user.unfollow(profileId).then(function () {
-        return res.json({ profile: req.profile.toProfileJSONFor(user) });
-      });
+      await User.findById(profileId)
+        .then((currentUser) => {
+          currentUser.unfollow(user);
+          return res.send("unfollowed " + req.body._id + " successfully");
+        })
+        .catch(next);
     })
     .catch(next);
 };
