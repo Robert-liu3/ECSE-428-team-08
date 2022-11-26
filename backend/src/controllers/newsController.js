@@ -96,6 +96,22 @@ export const getAllArticles = async (req, res) => {
       .catch(err => res.json("Error: " + err))
 };
 
+export const getArticlesByUser = async (req, res) => {
+    const inputUser = await user.findById(req.query['userId'])
+    let likedArticles = [];
+
+    // Push each article into an array
+    for (let i = 0; i < inputUser.likedArticles.length; i++) {
+        const bmId = inputUser.likedArticles[i]
+        const articleBm = await ArticleBookmark.findById(bmId);
+        const article = await NewsArticle.findById(articleBm.newsArticle);
+        likedArticles.push(article);
+    }
+
+    res.json(likedArticles);
+    return inputUser.likedArticles;
+}
+
 //clears the database, might be used to as a clear function for bookmarks later on
 export const clearArticles = async (req, res) => {
 
