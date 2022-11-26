@@ -96,21 +96,21 @@ export const getAllArticles = async (req, res) => {
       .catch(err => res.json("Error: " + err))
 };
 
-export const getArticlesByUser = async (req, res) => {
+// Returns a list of article bookmarks
+export const getArticleBookmarksByUser = async (req, res) => {
     const inputUser = await user.findById(req.query['userId'])
-    let likedArticles = [];
+    let articleBookmarks = [];
 
     if (inputUser === null) return null;
 
-    // Push each article into an array
+    // Push each article bookmark into an array
     for (let i = 0; i < inputUser.likedArticles.length; i++) {
         const bmId = inputUser.likedArticles[i]
         const articleBm = await ArticleBookmark.findById(bmId);
-        const article = await NewsArticle.findById(articleBm.newsArticle);
-        likedArticles.push(article);
+        articleBookmarks.push(articleBm);
     }
 
-    res.json(likedArticles);
+    res.json(articleBookmarks);
     return inputUser.likedArticles;
 }
 

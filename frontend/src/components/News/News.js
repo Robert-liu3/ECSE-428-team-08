@@ -64,6 +64,15 @@ async function addToFavorite(articleInfo, userId) {
   })
 }
 
+async function removeFromFavorite(bookmarkId, userId) {
+  await axios.delete("http://localhost:5000/news/removeFavNews", {
+    params: {
+      articleToRemoveId: bookmarkId,
+      userId: userId
+    }
+  })
+}
+
 // Will be used as a default to make cleaner
 const LargeArticleContainer = (props) => {
   // Variables for article info
@@ -157,15 +166,20 @@ const SmallArticleContainer = (props) => {
 };
 
 const FavoritedNews = (props) => {
+  // Get the bookmark of the user and use it to get article info
+  const bookmark = props.bookmark;
+  const [articleInfo, setArticleInfo] = useState({});
 
-  // Variables for article info
-  let articleInfo = {
-    articleTitle: props.title,
-    articleDescription: props.description,
-    articleAuthor: props.author,
-    articleUrl: props.articleUrl,
-    articleImage: props.imageUrl,
-  }
+  useEffect(() => {
+    async function getArticleInfo () {
+      const articleFromBm = await axios.get("http://localhost:5000/news/getArticleFromBm", {
+        params: { articleBm: bookmark}
+      })
+      setArticleInfo(articleFromBm.data);
+    }
+
+    getArticleInfo();
+  }, [articleInfo, bookmark])
 
   return (
     <div className="post mb-3 pb-1 border-bottom clearfix">
@@ -174,20 +188,27 @@ const FavoritedNews = (props) => {
         <div className="post-title h6 font-weight-bold">
           <div className="col-auto">
             <div className="post-media ">
-              <a href={articleInfo.articleUrl}>
-                <img className="img-fluid" src={articleInfo.articleImage} width="100"  alt=""/>
+              <a href={articleInfo.url}>
+                <img className="img-fluid" src={articleInfo.imageUrl} width="100"  alt=""/>
               </a>
             </div>
           </div>
           <div className="col">
             <div className="post-header">
-              <div className="post-title h5 font-weight-bold">{articleInfo.articleTitle}</div>
+              <div className="post-title h5 font-weight-bold">{articleInfo.title}</div>
             </div>
             <div className="post-body">
-              <div className="post-content">{articleInfo.articleDescription}</div>
+              <div className="post-content">{articleInfo.description}</div>
               <div className="post-date">
                 <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
               </div>
+            </div>
+            <div>
+              <button className="btn btn-light" type="button" onClick={() => {
+                removeFromFavorite(bookmark._id, userId).then(r => console.log("Removed successfully."))
+              }}>
+                <img src="https://icons.getbootstrap.com/assets/icons/trash.svg" alt=""></img>
+              </button>
             </div>
           </div>
         </div>
@@ -208,21 +229,19 @@ export default function News() {
   const topArticles = newsArticles.slice(0, 4);
   const smallerArticles = newsArticles.slice(4, 10);
 
-  // Get user's current favorite articles
-  const [favArticles, setFavArticles] = useState([]);
+  // Get user's current favorite articles (in the form of bookmarks)
+  const [favArticleBms, setFavArticleBms] = useState([]);
 
   useEffect(() => {
-    async function getFavArticles() {
-      let likedArticles = await axios.get("http://localhost:5000/news/getArticlesByUser", {
-        params: {
-          userId: userId
-        }
+    async function getFavArticleBms() {
+      let likedArticleBms = await axios.get("http://localhost:5000/news/getArticleBmsByUser", {
+        params: { userId: userId }
       })
-      setFavArticles(likedArticles.data);
+      setFavArticleBms(likedArticleBms.data);
     }
 
-    getFavArticles();
-  }, [favArticles])
+    getFavArticleBms();
+  }, [favArticleBms])
 
   return (
     <>
@@ -282,15 +301,12 @@ export default function News() {
                         Favorites
                       </div>
                     </div>
+
+                    {/*Favorited news articles*/}
                     <ul style={{ listStyleType: "none" }}>
-                      {favArticles.map((article) => (
+                      {favArticleBms.map((articleBm) => (
                           <li>
-                            <FavoritedNews
-                                imageUrl={article.imageUrl}
-                                title={article.title}
-                                description={article.description}
-                                articleUrl={article.url}
-                                author={article.author}/>
+                            <FavoritedNews bookmark={articleBm}/>
                           </li>
                       ))}
                     </ul>
