@@ -17,6 +17,4 @@ describe('News Page Frontend', () => {
   //     .get('a[href*="https"]').first()
   //   .click()
   // })
-
-
 })
