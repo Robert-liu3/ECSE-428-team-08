@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "cucumber-js test --publish-quiet",
     "test_w_server": "start-server-and-test dev http://localhost:5000/ test"
   },
   "keywords": [],
