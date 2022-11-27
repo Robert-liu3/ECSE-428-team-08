@@ -56,6 +56,9 @@ export default function Watchlist() {
     stocks: [],
   });
 
+  const someUser = sessionStorage.getItem("currentUser");
+  console.log(someUser);
+
   const fetchStock = (stock) => {
     const API_KEY = "8FF4VNOU6KHZHNIB";
     const API_CALL = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock}&apikey=${API_KEY}`;

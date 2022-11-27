@@ -10,12 +10,11 @@ let UserSchema = new mongoose.Schema(
     image: String,
     username: String,
     password: String,
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     watchList: [String],
-    likedArticles: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "ArticleBookmark" },
-    ],
+    status: Boolean, // true-> login, false-> not login
+    following: [{ type: mongoose.Schema.Types.String, ref: "User" }],
   },
+
   {
     timestamps: true,
   }
@@ -90,5 +89,39 @@ UserSchema.methods.removeFromWatchList = function (ticker) {
 };
 
 // Remove an article from favourites list
+UserSchema.methods.toProfileJSONFor = function () {
+  return {
+    test: this.email,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    _id: this._id,
+    profileBio: this.profileBio,
+    image: this.image,
+    status: this.status,
+    following: user ? user.isFollowing(this._id) : false,
+  };
+};
+
+// Follow a user with id 'id' NOTE: cannot use arrow function because of this property
+UserSchema.methods.follow = async function (id) {
+  this.following.push(id);
+  return await this.save();
+};
+
+// Unfollow a user with id 'id'
+UserSchema.methods.unfollow = function (id) {
+  this.following.remove(id._id);
+
+  return this.save();
+};
+
+// Whether this user is following some other user
+UserSchema.methods.isFollowing = function (id) {
+  return this.following.some((followingId) => {
+    return followingId === id._id;
+  });
+};
+
 const user = mongoose.model("User", UserSchema);
 export default user;

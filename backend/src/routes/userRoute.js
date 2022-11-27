@@ -7,6 +7,8 @@ import {
   login,
   addToWatchList,
   removeFromWatchList,
+  followUser,
+  unfollowUser,
 } from "../controllers/userController.js";
 const router = Router();
 
@@ -20,5 +22,9 @@ router.post("/addToWatchList", addToWatchList);
 
 // Remove stock from watchList
 router.delete("/removeFromWatchList", removeFromWatchList);
+
+// Follow/Unfollow
+router.post("/followUser/:username", followUser);
+router.delete("/unfollowUser/:username", unfollowUser);
 
 export default router;
