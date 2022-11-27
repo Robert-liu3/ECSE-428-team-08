@@ -235,7 +235,6 @@ test("closeWatchlist", async () => {
     )
     .then(async (el) => {
       let watchlistName = await el.getText();
-      console.log("Found watchlist text 1:", await el.getText());
       expect(watchlistName).toBe("Watchlist");
     });
 
@@ -284,7 +283,6 @@ test("reopenWatchlist", async () => {
     )
     .then(async (el) => {
       let watchlistName = await el.getText();
-      console.log("Found watchlist text 2.1:", await el.getText());
       expect(watchlistName).toBe("Watchlist");
     });
 
@@ -328,9 +326,8 @@ test("reopenWatchlist", async () => {
     )
     .then(async (el) => {
       let watchlistName = await el.getText();
-      console.log("Found watchlist text 2.2:", await el.getText());
 
-      if (watchlistName === "Watchlist") {
+      if (watchlistName === "Watchlist") { // if we found a watchlist called "Watchlist", then we found the watchlist element.
         isWatchlistOpen = true;
       }
     });
