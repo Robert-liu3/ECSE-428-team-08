@@ -4,7 +4,7 @@ import user from "../models/user.js";
 import ArticleBookmark from "../models/ArticleBookmark.js";
 
 const newsapi = new NewsAPI('4e01875ffe8c42ef878ccd83a054fd00');
-//
+
 // Uses newsapi to retrieve top headlines
 // Requires query param, optional for category and sources; used for filtering
 export const getNewsFromAPI = async (req, res) => {
