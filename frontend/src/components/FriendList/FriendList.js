@@ -10,22 +10,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name) {
+  return { name};
 }
 
 const rows = [
-  createData("Noah Ye", 159, 6.0, 24, 4.0),
-  createData("Robert Liu", 237, 9.0, 37, 4.3),
-  createData("Arturo M", 262, 16.0, 24, 6.0),
-  createData("Danny tu", 305, 3.7, 67, 4.3),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
-  createData("Abiola O", 356, 16.0, 49, 3.9),
+  createData("Noah Ye"),
+  createData("Robert Liu"),
+  createData("Arturo M"),
+  createData("Danny tu"),
+  createData("Abiola O"),
+  createData("Abiola O"),
+  createData("Abiola O"),
 ];
 
 export default function FriendList() {
