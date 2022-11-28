@@ -57,7 +57,7 @@ export const login = async (req, res) => {
   const userId = req.params.username;
   await User.find({ userId })
     .then((info) => {
-      if (info[1].password == req.params.password) {
+      if (info[0].password == req.params.password) {
         res.send("Correct " + userId);
       } else {
         res.send("Wrong password or Username");
