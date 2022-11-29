@@ -36,6 +36,7 @@ function Header() {
       <div className="input-group mb-3">
         <div className="input-group-prepend">
           <button
+            id="search_button"
             className="btn btn-outline-secondary"
             type="button"
             onClick={apiCall}
@@ -47,6 +48,7 @@ function Header() {
           </button>
         </div>
         <input
+          id="search_bar_input"
           type="text"
           placeholder="Search for specific news..."
           className="form-control"
@@ -235,7 +237,7 @@ export default function News() {
               {/*First column of articles*/}
               <div className="row">
                 <div className="col-12 col-md-5 mb-3 mb-md-0">
-                  <ul style={{ listStyleType: "none" }}>
+                  <ul id="news_list" style={{ listStyleType: "none" }}>
                     {topArticles.map((article) => (
                       <li>
                         <LargeArticleContainer
