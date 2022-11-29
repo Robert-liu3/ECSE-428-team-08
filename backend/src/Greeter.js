@@ -1,4 +1,4 @@
-class Greeter {
+export class Greeter {
     sayHello() {
       return 'hello'
     }
