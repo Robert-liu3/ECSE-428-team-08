@@ -15,7 +15,7 @@ export default function (props) {
       username,
       password,
     });
-    console.log(value);
+    // console.log(value);
     var valueArray = [];
     //HERE CHECK IF VALUE IS RIGHT THE SWITCH PAGES
     // console.log(value.length)

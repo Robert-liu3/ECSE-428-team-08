@@ -77,14 +77,19 @@ UserSchema.methods.removeFavouriteArticle = function (id) {
 
 // Add a Stock ticker string to the watch list
 UserSchema.methods.addToWatchList = function (ticker) {
-  this.watchList.push(ticker);
+  const indexOfId = this.watchList.indexOf(ticker);
+  if (indexOfId == -1) {
+    this.watchList.push(ticker);
+  }
   return this.save();
 };
 
 // Remove a Stock ticker from watch list
 UserSchema.methods.removeFromWatchList = function (ticker) {
   const indexOfId = this.watchList.indexOf(ticker);
-  this.watchList.splice(indexOfId, 1);
+  if (indexOfId != -1) {
+    this.watchList.splice(indexOfId, 1);
+  }
   return this.save();
 };
 

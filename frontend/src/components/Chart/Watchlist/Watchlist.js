@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useGetStockDetailsQuery } from "../../../services/stocksController";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid"; // Grid version 1
 import "../styles.css";
 import { Card, Stack, TextField, Button } from "@mui/material";
@@ -7,75 +6,36 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 
 // Functions for adding and removing a stock
-async function addToWatchList(userId, ticker) {
-  await axios.post("http://localhost:5000/user/addToWatchList", null, {
-    params: {
-      userId: userId,
-      ticker: ticker,
-    },
-  });
+async function addToWatchList(username, ticker) {
+  console.log("In addToWatchList frontend");
+  console.log(username, ticker);
+  await axios.post(
+    `http://localhost:5000/addToWatchList/${username}/${ticker}`,
+    null,
+    {}
+  );
 }
 
-async function removeFromWatchList(userId, ticker) {
-  await axios.delete("http://localhost:5000/user/removeFromWatchList", null, {
-    params: {
-      userId: userId,
-      ticker: ticker,
-    },
-  });
-}
-
-// get a random user
-async function getRandomUser() {
-  let user = await axios.get("http://localhost:5000/getUser/Noah2", {
-    params: {
-      username: "Noah2",
-    },
-  });
-  // console.log("from the frontend: " + user.data);
-  return user.data;
+async function removeFromWatchList(username, ticker) {
+  await axios.delete(
+    `http://localhost:5000/removeFromWatchList/${username}/${ticker}`,
+    null,
+    {}
+  );
 }
 
 export default function Watchlist() {
-  const user = {
-    watchList: ["aapl", "tsla"],
-    _id: "Noah2",
-    firstName: "Atrup",
-    lastName: "Ram",
-    email: "noah@outlook.com",
-    profileBio: '"I like to ball"',
-    image: "dog",
-    password: "123",
-    createdAt: "2022-10-30T06:37:24.424Z",
-    updatedAt: "2022-11-26T05:33:13.154Z",
-    __v: 105,
-    likedArticles: ["637933ef0621265471d02b20"],
-  };
+  const [isLoading, setIsLoading] = useState({
+    isLoading: true,
+  });
+
+  const [curUser, setCurUser] = useState({
+    curUser: {},
+  });
 
   const [stocks, setStocks] = useState({
     stocks: [],
   });
-
-  const someUser = sessionStorage.getItem("currentUser");
-  console.log(someUser);
-
-  const fetchStock = (stock) => {
-    const API_KEY = "8FF4VNOU6KHZHNIB";
-    const API_CALL = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock}&apikey=${API_KEY}`;
-
-    fetch(API_CALL).then(function (response) {
-      return response.json();
-    });
-  };
-
-  const fillStockList = () => {
-    for (const stock of user.watchList) {
-      console.log(stock);
-      stocks.stocks.push(fetchStock(stock));
-    }
-  };
-
-  fillStockList();
 
   const [inputField, setInputField] = useState({
     stock: "",
@@ -86,30 +46,91 @@ export default function Watchlist() {
   };
 
   const submitButton = () => {
-    alert(inputField.stock);
+    const ticker = inputField.stock;
+    addToWatchList(curUser.curUser?._id, ticker);
   };
 
+  useEffect(() => {
+    if (isLoading.isLoading) {
+      getCurrentUser();
+    }
+  });
+
+  async function fetchStocks(API_CALL, stockList) {
+    await fetch(API_CALL)
+      .then((response) => response.json())
+      .then((stock) => {
+        console.log(stock);
+        stockList.push(stock["Global Quote"]);
+      });
+  }
+
+  async function getCurrentUser() {
+    const someUser = sessionStorage.getItem("currentUser");
+    await fetch(`http://localhost:5000/getUser/${someUser}`)
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((user) => {
+        console.log(user);
+        curUser.curUser = user;
+      })
+      .then((someVar) => {
+        // const stockList = [];
+        console.log(curUser.curUser.watchList);
+
+        const API_KEY = "8FF4VNOU6KHZHNIB";
+
+        const promises = curUser?.curUser?.watchList.map((stock) =>
+          fetch(
+            `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock}&apikey=${API_KEY}`
+          ).then((response) => response.json())
+        );
+
+        Promise.all(promises).then((responses) => {
+          let stockList = [];
+          responses.forEach((response) => {
+            console.log(response);
+            stockList.push(response);
+          });
+
+          stocks.stocks = stockList;
+          console.log(stocks.stocks);
+          isLoading.isLoading = false;
+        });
+
+        // fetchStocks(API_CALL, stockList);
+      });
+
+    // });
+    // console.log(curUser.curUser);
+    // isLoading.isLoading = false;
+  }
+  console.log(curUser);
+
+  // if (!isLoading.isLoading) {
   return (
     <Stack spacing={2} style={{ display: "flex", justifyContent: "center" }}>
       <Typography variant="h4">My Watchlist</Typography>
-      {stocks.stocks != [] ? (
-        <></>
-      ) : (
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {Array.from(stocks.stocks).map((stock, index) => (
-            <Grid item xs={2} sm={4} md={4} key={index}>
-              <Card style={{ paddingTop: 16 }}>
-                <p>{stock["Global Quote"]["01. symbol"]}</p>
-                <p>{stock["Global Quote"]["02. open"]}</p>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      {/* {isLoading.isLoading ? (
+          <div>Loading...</div>
+        ) : ( */}
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+        {Array.from(stocks.stocks).map((stock, index) => (
+          <Grid item xs={2} sm={4} md={4} key={index}>
+            <Card style={{ paddingTop: 16 }}>
+              <p>{stock["Global Quote"]["01. symbol"]}</p>
+              <p>{stock["Global Quote"]["02. open"]}</p>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      {/* )} */}
       <Card
         style={{
           padding: 20,
@@ -137,4 +158,5 @@ export default function Watchlist() {
       </Card>
     </Stack>
   );
+  // }
 }
