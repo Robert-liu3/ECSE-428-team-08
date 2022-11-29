@@ -1,14 +1,9 @@
 import assert from 'assert'
 import {When,Then} from '@cucumber/cucumber'
 import {Greeter} from '../src/Greeter.js'
+import axios from 'axios'
 
-// const assert = require('assert')
-// const { When, Then } = require('@cucumber/cucumber')
-// const { Greeter } = require('../../src')
-
-
-
-//////// .  USEER /////
+//////// USER ////////
 
 var whatIHeard
 
@@ -16,7 +11,7 @@ When('the greeter says hello', function () {
   let greeter = new Greeter()
   console.log(greeter.sayHello())
   whatIHeard =  greeter.sayHello()
-  return "IT workds"
+  return "IT works"
 });
 
 Then('I should have heard {string}', function (expectedResponse) {
@@ -24,8 +19,23 @@ Then('I should have heard {string}', function (expectedResponse) {
 });
 
 
+//////// NEWS ////////
 
+// Retrieve news from newsapi
+When(/^the user asks for news about (.*)$/, async function ( company ) {
+  this.newsResponse = await axios.get("http://localhost:5000/news/getNews", {
+    params: {
+      query: company,
+      category: "business"
+    }
+  });
+});
 
-////// NEWS ////////
-
-
+Then(/^the user should receive news about (.*)$/, function (expected) {
+  try {
+    assert(this.newsResponse.data.articles.articles[0].title.includes(expected));
+  } catch (err) {
+    console.log(this.newsResponse.data.articles.articles[0].title)
+    console.log(expected);
+  }
+});
