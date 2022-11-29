@@ -154,8 +154,8 @@ export const removeFromWatchList = async (req, res) => {
     res.json("Error: could not find a user with the provided id.");
   else {
     // Remove reference of stock
+    console.log("Stock to be removed from watchList.");
     userToUpdate.removeFromWatchList(ticker);
     res.json(userToUpdate);
-    console.log("Stock successfully removed from watchList.");
   }
 };

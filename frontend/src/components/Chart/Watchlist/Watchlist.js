@@ -23,14 +23,20 @@ async function addToWatchList(username, ticker, API_KEY) {
     null,
     {}
   );
+  window.location.reload(false);
 }
 
 async function removeFromWatchList(username, ticker) {
+  if (!ticker) {
+    alert("Invalid stock to delete!");
+    return;
+  }
   await axios.delete(
     `http://localhost:5000/removeFromWatchList/${username}/${ticker}`,
     null,
     {}
   );
+  window.location.reload(false);
 }
 
 function uniq(arr) {
@@ -63,6 +69,10 @@ export default function Watchlist() {
     addToWatchList(curUser?._id, ticker, API_KEY);
   };
 
+  const removeButton = (ticker) => {
+    removeFromWatchList(curUser?._id, ticker, API_KEY);
+  };
+
   useEffect(() => {
     if (isLoading) {
       getInformation();
@@ -79,11 +89,18 @@ export default function Watchlist() {
         setCurUser(user);
       })
       .then((someVar) => {
+        // if (curUser?.watchList === []) {
+        //   return;
+        // }
         const promises = curUser?.watchList?.map((stock, index) =>
           fetch(
             `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock}&apikey=${API_KEY}`
           ).then((response) => response.json())
         );
+
+        // if (!promises) {
+        //   return;
+        // }
 
         Promise.all(promises).then((responses) => {
           responses.forEach((response) => {
@@ -94,14 +111,7 @@ export default function Watchlist() {
                   open: response["Global Quote"]["02. open"],
                 };
                 stocks.push(obj);
-              } else {
-                removeFromWatchList(curUser.id, [
-                  curUser.watchList[response["Index"]],
-                ]);
               }
-            } else {
-              alert("Too many API calls!");
-              return;
             }
           });
           setIsLoading(false);
@@ -124,6 +134,13 @@ export default function Watchlist() {
               <Card style={{ paddingTop: 16 }}>
                 <p>{stock?.ticker}</p>
                 <p>{stock?.open}</p>
+                <button
+                  onClick={() => {
+                    removeButton(stock?.ticker?.toLowerCase());
+                  }}
+                >
+                  Remove
+                </button>
               </Card>
             </Grid>
           ))}
