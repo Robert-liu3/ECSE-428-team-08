@@ -7,6 +7,7 @@ export default function (props) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
+
   const handleSubmit = async (event) => {
     //prevent page refresh
     event.preventDefault();
@@ -15,15 +16,16 @@ export default function (props) {
       username,
       password,
     });
-    // console.log(value);
     var valueArray = [];
     //HERE CHECK IF VALUE IS RIGHT THE SWITCH PAGES
-    // console.log(value.length)
-    if (value.length < 14) {
+    console.log(value.length)
+    if(value.length<14){
       valueArray = value.split(" ");
-      console.log(valueArray, "here");
+      console.log(valueArray, "here")
     }
 
+    console.log(valueArray)
+ 
     if ("Correct" === valueArray[0]) {
       sessionStorage.setItem("currentUser", valueArray[1]);
     }

@@ -1,3 +1,4 @@
+
 import User from "../models/user.js";
 
 // For testing since cant access database
@@ -76,7 +77,6 @@ export const createUser = async (req, res) => {
  * function to get check the login credentials of a user
  */
 export const login = async (req, res) => {
-  console.log(req.params.username, req.params.password);
   const userId = req.params.username;
   await User.findById( userId)
     .then((info) => {
@@ -142,42 +142,11 @@ export const unfollowUser = async (req, res, next) => {
 
       await User.findById(profileId)
         .then((currentUser) => {
+       
           currentUser.unfollow(user);
           return res.send("unfollowed " + req.body._id + " successfully");
         })
         .catch(next);
     })
     .catch(next);
-};
-
-export const addToWatchList = async (req, res) => {
-  console.log(req.params.username, req.params.ticker);
-  const ticker = req.params.ticker;
-  const userToUpdate = await User.findById(req.params.username);
-
-  if (userToUpdate === null)
-    res.json("Error: could not find a user with the provided id.");
-  else {
-    // add to watchList (string)
-    console.log("Inside add to watchlist, found user");
-    userToUpdate.addToWatchList(ticker);
-    res.json(userToUpdate);
-    console.log("Stock successfully added to watchList.");
-  }
-};
-
-// Provided user id and stock id
-export const removeFromWatchList = async (req, res) => {
-  console.log(req.params.username, req.params.ticker);
-  const ticker = req.params.ticker;
-  const userToUpdate = await User.findById(req.params.username);
-
-  if (userToUpdate === null)
-    res.json("Error: could not find a user with the provided id.");
-  else {
-    // Remove reference of stock
-    console.log("Stock to be removed from watchList.");
-    userToUpdate.removeFromWatchList(ticker);
-    res.json(userToUpdate);
-  }
 };
