@@ -1,4 +1,3 @@
-import user from "../models/user.js";
 import User from "../models/user.js";
 
 // For testing since cant access database
@@ -59,7 +58,6 @@ export const login = async (req, res) => {
   await User.find({ userId })
     // console.log(User.find({ userId }));
     .then((info) => {
-      console.log(info[0].password);
       if (info[0].password == req.params.password) {
         res.send("Correct " + userId);
       } else {
@@ -79,7 +77,6 @@ export const login = async (req, res) => {
  */
 export const followUser = async (req, res, next) => {
   var profileId = req.params.username;
-
   await User.findById(req.body._id)
     .then(async (user) => {
       if (!user) {
@@ -91,7 +88,7 @@ export const followUser = async (req, res, next) => {
           console.log(currentUser.following.length);
           // make sure user can follow the same user twice
           if (currentUser.isFollowing(user)) {
-            return res.sendStatus(401);
+            return res.send(401, "Already following " + user._id);
           }
           currentUser.follow(user);
           return res.send("followed " + req.body._id + " successfully");
@@ -115,7 +112,7 @@ export const unfollowUser = async (req, res, next) => {
   User.findById(req.body._id)
     .then(async (user) => {
       if (!user) {
-        return res.sendStatus(401);
+        return res.sendStatus(401, req.body._id + "does not exist");
       }
 
       await User.findById(profileId)
