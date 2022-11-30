@@ -8,6 +8,10 @@ Given a user is on the news page
 
 Scenario: Favorite an article and it appears on the favorites list
 When a user clicks on the heart
+Then the heart should be red
+
+Scenario: Favorite an article and it appears on the favorites list
+When a user clicks on the heart
 Then news article will appear on the favorites list
 
 Scenario: Favorite an article and it is added to the favorites list

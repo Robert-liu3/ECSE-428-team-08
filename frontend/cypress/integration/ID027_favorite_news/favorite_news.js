@@ -9,7 +9,12 @@ Given('a user is on the news page', () => {
 })
 
 When('a user clicks on the heart', () => {
-    // cy.get('Heart').click() //somehow unable to locate the Heart el? not sure how to change it
+    cy.get("#heart_el").click() //somehow unable to locate the Heart el? not sure how to change it
+})
+
+Then('the heart should be red', () => {
+    cy.wait(2000)
+    cy.get("#heart_el").click().get('body').should('have.value', '')
 })
 
 Then('news article will appear on the favorites list', () => {
@@ -23,11 +28,11 @@ Then('news article will be added to the favorites list', () => {
 })
 
 When('a user does not click on the heart', () => {
-    // cy.get('Heart').click() //somehow unable to locate the Heart el? not sure how to change it
+    //nothing should happen
 })
 
 Then('no news will show up on the favorites list', () => {
     cy.wait(2000)
-    cy.get("#fav_list").children().should('have.length', 4) //should change this to 0 when we fix the list so there are none inside the list
+    cy.get("#fav_list").children().should('have.length', 0) //should change this to 0 when we fix the list so there are none inside the list
 })
 
