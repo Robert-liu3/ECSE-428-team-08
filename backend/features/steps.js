@@ -30,37 +30,43 @@ Then("I should have heard {string}", function (expectedResponse) {
 
 var user;
 
-Given("a user exists with id {string}", async (id) => {
-  const userResponse = await axios.get(`http://localhost:5000/getUser/${id}`);
+async function call(API_CALL, type) {
+  const out = null;
+  switch (type) {
+    case "get":
+      out = await axios.get(API_CALL);
+    case "post":
+      out = await axios.post(API_CALL);
+    case "delete":
+      out = await axios.delete(API_CALL);
+  }
+  console.log(out);
+  return out;
+}
+
+Given("a user exists with id {string}", function (string) {
+  const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
   assert.equal(userResponse.statusCode, 200);
 });
 
 When(
   "the user with id {string} adds a new stock with ticker {string}",
-  async (id, ticker) => {
-    await axios.post(
-      `http://localhost:5000/addStockToWatchList/${id}/${ticker}`
-    );
-  }
-);
-
-When(
-  "the user with id {string} removes the stock with ticker {string}",
-  async (id, ticker) => {
-    await axios.delete(
-      `http://localhost:5000/removeFromWatchList/${id}/${ticker}`
+  function (string, string2) {
+    call(
+      `http://localhost:5000/addStockToWatchList/${string}/${string2}`,
+      "post"
     );
   }
 );
 
 Then(
   "the user with id {string} shall have the ticker {string} in their watchList",
-  async (id, ticker) => {
-    const userResponse = await axios.get(`http://localhost:5000/getUser/${id}`);
-    assert.equal(userResponse.statusCode, 200);
+  function (string, string2) {
+    const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
+    assert.equal(userResponse?.statusCode, 200);
     let found = false;
     for (const stock of user?.watchList) {
-      if (stock === ticker) {
+      if (stock === string2) {
         found = true;
       }
     }
@@ -68,14 +74,24 @@ Then(
   }
 );
 
+When(
+  "the user with id {string} removes the stock with ticker {string}",
+  function (string, string2) {
+    call(
+      `http://localhost:5000/removeFromWatchList/${string}/${string2}`,
+      "delete"
+    );
+  }
+);
+
 Then(
   "the user with id {string} shall not have {string} in their watchList",
-  async (id, ticker) => {
-    const userResponse = await axios.get(`http://localhost:5000/getUser/${id}`);
+  function (string, string2) {
+    const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
     assert.equal(userResponse.statusCode, 200);
     let found = false;
     for (const stock of user?.watchList) {
-      if (stock === ticker) {
+      if (stock === string2) {
         found = true;
       }
     }
