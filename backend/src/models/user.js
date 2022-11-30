@@ -13,6 +13,7 @@ let UserSchema = new mongoose.Schema(
     watchList: [String],
     status: Boolean, // true-> login, false-> not login
     following: [{ type: mongoose.Schema.Types.String, ref: "User" }],
+    likedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: "ArticleBookmark" }]
   },
 
   {

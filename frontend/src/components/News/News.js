@@ -5,6 +5,9 @@ import Heart from "react-heart";
 // Outside function for updating state of articles in containers
 let updateNewsArticles;
 
+// Get the user logged in
+const userId = sessionStorage.getItem("currentUser")
+
 function Header() {
   // Default search is for "stocks"
   const [query, setQuery] = useState("stocks");
@@ -75,6 +78,15 @@ async function addToFavorite(articleInfo, userId) {
   });
 }
 
+async function removeFromFavorite(bookmarkId, userId) {
+  await axios.delete("http://localhost:5000/news/removeFavNews", {
+    params: {
+      articleToRemoveId: bookmarkId,
+      userId: userId
+    }
+  })
+}
+
 // Will be used as a default to make cleaner
 const LargeArticleContainer = (props) => {
   // Variables for article info
@@ -87,10 +99,7 @@ const LargeArticleContainer = (props) => {
     articleImage: props.imageUrl,
   };
 
-  // Will be used temporarily to get the user logged in
-  const userId = localStorage.getItem("currentUser");
-
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(false)
 
   return (
     <div className="post mb-3 pb-3 border-bottom">
@@ -146,9 +155,6 @@ const SmallArticleContainer = (props) => {
 
   const [active, setActive] = useState(false);
 
-  // Will be used temporarily to get the user logged in
-  const userId = localStorage.getItem("currentUser");
-
   return (
     <div className="post mb-3 pb-3 border-bottom">
       <div className="row">
@@ -196,13 +202,64 @@ const SmallArticleContainer = (props) => {
   );
 };
 
-function FavoritedNews() {
+const FavoritedNews = (props) => {
+  // Get the bookmark of the user and use it to get article info
+  const bookmark = props.bookmark;
+  const [articleInfo, setArticleInfo] = useState({});
+
+  useEffect(() => {
+    async function getArticleInfo () {
+      const articleFromBm = await axios.get("http://localhost:5000/news/getArticleFromBm", {
+        params: { articleBm: bookmark }
+      })
+      setArticleInfo(articleFromBm.data);
+    }
+
+    getArticleInfo().catch(error => console.log(error));
+  }, [articleInfo, bookmark])
+
+  if (articleInfo === null) return (
+      <div>
+        <div>Could not load article.</div>
+        <div>
+          <button className="btn btn-light" type="button" onClick={() => {
+            removeFromFavorite(bookmark._id, userId).then(r => console.log("Removed successfully."))
+          }}>
+            <img src="https://icons.getbootstrap.com/assets/icons/trash.svg" alt=""></img>
+          </button>
+        </div>
+      </div>
+  )
   return (
     <div className="post mb-3 pb-1 border-bottom clearfix">
       <div className="post-media float-left mr-3"></div>
       <div className="post-header">
         <div className="post-title h6 font-weight-bold">
-          Find your favorited news articles right here!
+          <div className="col-auto">
+            <div className="post-media ">
+              <a href={articleInfo.url}>
+                <img className="img-fluid" src={articleInfo.imageUrl} width="100"  alt=""/>
+              </a>
+            </div>
+          </div>
+          <div className="col">
+            <div className="post-header">
+              <div className="post-title h5 font-weight-bold">{articleInfo.title}</div>
+            </div>
+            <div className="post-body">
+              <div className="post-content">{articleInfo.description}</div>
+              <div className="post-date">
+                <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
+              </div>
+            </div>
+            <div>
+              <button className="btn btn-light" type="button" onClick={() => {
+                removeFromFavorite(bookmark._id, userId).then(r => console.log("Removed successfully."))
+              }}>
+                <img src="https://icons.getbootstrap.com/assets/icons/trash.svg" alt=""></img>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -220,6 +277,20 @@ export default function News() {
   // Split articles into sets that need to be displayed
   const topArticles = newsArticles.slice(0, 4);
   const smallerArticles = newsArticles.slice(4, 10);
+
+  // Get user's current favorite articles (in the form of bookmarks)
+  const [favArticleBms, setFavArticleBms] = useState([]);
+
+  useEffect(() => {
+    async function getFavArticleBms() {
+      let likedArticleBms = await axios.get("http://localhost:5000/news/getArticleBmsByUser", {
+        params: { userId: userId }
+      })
+      setFavArticleBms(likedArticleBms.data);
+    }
+
+    getFavArticleBms();
+  }, [favArticleBms])
 
   return (
     <>
@@ -272,32 +343,26 @@ export default function News() {
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-lg-4">
+            <div className="col-xl-3 col-lg-10">
               <div className="sticky-sidebar">
                 <div className="sticky-inside">
                   <div className="banner banner-sidebar mb-3 bg-light text-center"></div>
-                  <div className="widget-posts gradient-back text-white bg-light px-3 pb-3 pt-1 shadow ">
+                  <div className="widget-posts gradient-back bg-light px-3 pb-3 pt-1 shadow ">
                     <div className="widget-header">
-                      <div className="widget-title">Favorites</div>
+                      <div className="widget-title font-weight-bold">
+                        Favorites
+                      </div>
                     </div>
-
-                    <ul style={{ listStyleType: "none" }}>
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-                    </ul>
+                    <div className="overflow-auto h-250 align-items-center pre-scrollable">
+                      {/*Favorited news articles*/}
+                      <ul style={{ listStyleType: "none" }}>
+                        {favArticleBms.map((articleBm) => (
+                            <li>
+                              <FavoritedNews bookmark={articleBm}/>
+                            </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>

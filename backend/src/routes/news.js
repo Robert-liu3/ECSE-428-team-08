@@ -4,7 +4,9 @@ import {
     addFavNews,
     getAllArticles,
     clearArticles,
-    removeFavNews, getArticlesByUser
+    removeFavNews,
+    getArticleBookmarksByUser,
+    getArticleFromBm
 } from '../controllers/newsController.js'
 
 const router = Router();
@@ -21,11 +23,14 @@ router.delete('/removeFavNews', removeFavNews);
 // Get all articles in the database
 router.get('/getAllArticles', getAllArticles);
 
-//clear articles in database
+// Clear articles in database
 router.delete('/clearArticles', clearArticles);
 
-// get articles by user
-router.get("/getArticlesByUser", getArticlesByUser)
+// Get article bookmarks by user
+router.get("/getArticleBmsByUser", getArticleBookmarksByUser)
+
+// Get article from bookmark
+router.get("/getArticleFromBm", getArticleFromBm)
 
 export default router;
 
