@@ -7,7 +7,7 @@ export default function NavBar() {
       <Link to="/" className="site_title">
         Stock Market Exchange App
       </Link>
-      <ul>
+      <ul id="news_button">
         <CustomTab to="/news">News</CustomTab>
       </ul>
     </nav>

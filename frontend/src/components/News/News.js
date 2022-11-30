@@ -115,7 +115,7 @@ const LargeArticleContainer = (props) => {
           <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
         </div>
         <div style={{ display: "flex", width: "1.5rem" }}>
-          <Heart
+          <Heart id="Heart"
             isActive={active}
             onClick={() => {
               // Only sets active once for now
@@ -281,7 +281,7 @@ export default function News() {
                       <div className="widget-title">Favorites</div>
                     </div>
 
-                    <ul style={{ listStyleType: "none" }}>
+                    <ul id="fav_list" style={{ listStyleType: "none" }}>
                       <li>
                         <FavoritedNews />
                       </li>
