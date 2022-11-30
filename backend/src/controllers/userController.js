@@ -1,3 +1,4 @@
+
 import User from "../models/user.js";
 
 // For testing since cant access database
@@ -37,13 +38,36 @@ export const getUser = async (req, res) => {
  * function to register an user
  */
 export const createUser = async (req, res) => {
+  
   console.log(req.body);
   const userInfo = req.body;
   const newUser = new User(req.body);
+
+
   newUser
-    .save()
-    .then(() => res.send("user added"))
-    .catch((err) => res.json("Error:" + err));
+  .save()
+  .then(async() => {
+
+      return res.send("user added")
+  })
+  .catch((err) => {
+
+  if(err._message=== "User validation failed"){
+    console.log("dasdasd")
+    return res.send("email can't be empty")
+
+  }
+
+  else{
+  return res.send("Please choose another username")
+  }
+  
+  // res.json("error: "+ err)
+  
+});
+  console.log(newUser.email)
+ 
+  
 };
 /**
  *
@@ -53,12 +77,13 @@ export const createUser = async (req, res) => {
  * function to get check the login credentials of a user
  */
 export const login = async (req, res) => {
-  console.log(req.params.username, req.params.password);
   const userId = req.params.username;
-  await User.find({ userId })
-    // console.log(User.find({ userId }));
+  await User.findById( userId)
     .then((info) => {
-      if (info[0].password == req.params.password) {
+      if (!info) {
+        return res.send( userId + " does not exist");
+      }
+      if (info.password == req.params.password) {
         res.send("Correct " + userId);
       } else {
         res.send("Wrong password or Username");
@@ -117,42 +142,11 @@ export const unfollowUser = async (req, res, next) => {
 
       await User.findById(profileId)
         .then((currentUser) => {
+       
           currentUser.unfollow(user);
           return res.send("unfollowed " + req.body._id + " successfully");
         })
         .catch(next);
     })
     .catch(next);
-};
-
-export const addToWatchList = async (req, res) => {
-  console.log(req.params.username, req.params.ticker);
-  const ticker = req.params.ticker;
-  const userToUpdate = await User.findById(req.params.username);
-
-  if (userToUpdate === null)
-    res.json("Error: could not find a user with the provided id.");
-  else {
-    // add to watchList (string)
-    console.log("Inside add to watchlist, found user");
-    userToUpdate.addToWatchList(ticker);
-    res.json(userToUpdate);
-    console.log("Stock successfully added to watchList.");
-  }
-};
-
-// Provided user id and stock id
-export const removeFromWatchList = async (req, res) => {
-  console.log(req.params.username, req.params.ticker);
-  const ticker = req.params.ticker;
-  const userToUpdate = await User.findById(req.params.username);
-
-  if (userToUpdate === null)
-    res.json("Error: could not find a user with the provided id.");
-  else {
-    // Remove reference of stock
-    console.log("Stock to be removed from watchList.");
-    userToUpdate.removeFromWatchList(ticker);
-    res.json(userToUpdate);
-  }
 };
