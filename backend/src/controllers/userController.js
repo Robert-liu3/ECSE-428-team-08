@@ -128,7 +128,7 @@ export const unfollowUser = async (req, res, next) => {
 export const addToWatchList = async (req, res) => {
   console.log(req.params.username, req.params.ticker);
   const ticker = req.params.ticker;
-  const userToUpdate = await user.findById(req.params.username);
+  const userToUpdate = await User.findById(req.params.username);
 
   if (userToUpdate === null)
     res.json("Error: could not find a user with the provided id.");
@@ -145,7 +145,7 @@ export const addToWatchList = async (req, res) => {
 export const removeFromWatchList = async (req, res) => {
   console.log(req.params.username, req.params.ticker);
   const ticker = req.params.ticker;
-  const userToUpdate = await user.findById(req.params.username);
+  const userToUpdate = await User.findById(req.params.username);
 
   if (userToUpdate === null)
     res.json("Error: could not find a user with the provided id.");
