@@ -55,9 +55,12 @@ export const createUser = async (req, res) => {
  */
 export const login = async (req, res) => {
   const userId = req.params.username;
-  await User.find({ userId })
+  await User.findById( userId)
     .then((info) => {
-      if (info[0].password == req.params.password) {
+      if (!info) {
+        return res.send( userId + " does not exist");
+      }
+      if (info.password == req.params.password) {
         res.send("Correct " + userId);
       } else {
         res.send("Wrong password or Username");
