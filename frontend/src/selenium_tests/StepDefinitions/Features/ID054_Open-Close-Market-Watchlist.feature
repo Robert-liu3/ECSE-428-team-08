@@ -16,5 +16,5 @@ To maximize or minimize the space on the chart
   Scenario: Close and reopen the watchlist
     Given the watchlist is open
     When I close the watchlist
-    And I open it again
+    And I open the watchlist again
     Then the watchlist is displayed besides the chart again
