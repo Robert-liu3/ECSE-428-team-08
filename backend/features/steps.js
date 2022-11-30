@@ -28,45 +28,40 @@ Then("I should have heard {string}", function (expectedResponse) {
 
 ////// WATCHLIST ////////
 
-var user;
-
-async function call(API_CALL, type) {
-  const out = null;
-  switch (type) {
-    case "get":
-      out = await axios.get(API_CALL);
-    case "post":
-      out = await axios.post(API_CALL);
-    case "delete":
-      out = await axios.delete(API_CALL);
-  }
-  console.log(out);
-  return out;
-}
-
-Given("a user exists with id {string}", function (string) {
-  const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
-  assert.equal(userResponse.statusCode, 200);
+Given("a user exists with id {string}", async function (string) {
+  this.userResponse = await axios.get(
+    `http://localhost:5000/getUser/${string}`
+  );
+  assert.equal(this.userResponse?.data?._id, string);
 });
 
 When(
   "the user with id {string} adds a new stock with ticker {string}",
-  function (string, string2) {
-    call(
-      `http://localhost:5000/addStockToWatchList/${string}/${string2}`,
-      "post"
-    );
+  async function (string, string2) {
+    try {
+      this.userResponse = await axios.post(
+        `http://localhost:5000/addToWatchList/${string}/${string2}`
+      );
+    } catch (err) {
+      console.log("HEREHRERE");
+      console.log(this.userResponse.data);
+      console.log(err);
+    }
   }
 );
 
 Then(
   "the user with id {string} shall have the ticker {string} in their watchList",
-  function (string, string2) {
-    const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
-    assert.equal(userResponse?.statusCode, 200);
+  async function (string, string2) {
+    this.userResponse = await axios.get(
+      `http://localhost:5000/getUser/${string}`
+    );
     let found = false;
-    for (const stock of user?.watchList) {
-      if (stock === string2) {
+    console.log(
+      "LENGTHLEHTNLEHTN: " + this.userResponse?.data?.watchList?.length
+    );
+    for (let i = 0; i < this.userResponse?.data?.watchList?.length; i++) {
+      if (this.userResponse?.data?.watchList[i] === string2) {
         found = true;
       }
     }
@@ -76,10 +71,9 @@ Then(
 
 When(
   "the user with id {string} removes the stock with ticker {string}",
-  function (string, string2) {
-    call(
-      `http://localhost:5000/removeFromWatchList/${string}/${string2}`,
-      "delete"
+  async function (string, string2) {
+    this.userResponse = await axios.delete(
+      `http://localhost:5000/removeFromWatchList/${string}/${string2}`
     );
   }
 );
@@ -87,10 +81,8 @@ When(
 Then(
   "the user with id {string} shall not have {string} in their watchList",
   function (string, string2) {
-    const userResponse = call(`http://localhost:5000/getUser/${string}`, "get");
-    assert.equal(userResponse.statusCode, 200);
     let found = false;
-    for (const stock of user?.watchList) {
+    for (const stock of this.userResponse?.data?.watchList) {
       if (stock === string2) {
         found = true;
       }
@@ -98,77 +90,3 @@ Then(
     assert.equal(found, false);
   }
 );
-
-When(
-  "user {string} enters password with {string}",
-  async function (userName, pass) {
-    // loginResponse = await axios.get('http://localhost:5000/login/Noah2/123');
-    try {
-      this.username = userName;
-      this.password = pass;
-      this.loginResponse = await axios.get(
-        `http://localhost:5000/login/${this.username}/${this.password}`
-      );
-    } catch (err) {
-      console.log("dasdasdasdasd" + err);
-    }
-  }
-);
-
-Then("user is {string}", async function (response) {
-  try {
-    assert.equal(this.loginResponse.data, response);
-  } catch (err) {
-    console.log(this.loginResponse + err);
-  }
-});
-
-//wrong username but right password
-When(
-  "wrong user {string} enters right password {string} for another user in the system",
-  async function (userName, pass) {
-    // loginResponse = await axios.get('http://localhost:5000/login/Noah2/123');
-    try {
-      this.username = userName;
-      this.password = pass;
-      this.loginResponse = await axios.get(
-        `http://localhost:5000/login/${this.username}/${this.password}`
-      );
-    } catch (err) {
-      console.log("dasdasdasdasd" + err);
-    }
-  }
-);
-
-Then("wrong user gets {string}", async function (response) {
-  try {
-    assert.equal(this.loginResponse.data, response);
-  } catch (err) {
-    console.log(this.loginResponse + err);
-  }
-});
-
-// wrong password but right username
-When(
-  "user {string} enters wrong password with {string}",
-  async function (userName, pass) {
-    // loginResponse = await axios.get('http://localhost:5000/login/Noah2/123');
-    try {
-      this.username = userName;
-      this.password = pass;
-      this.loginResponse = await axios.get(
-        `http://localhost:5000/login/${this.username}/${this.password}`
-      );
-    } catch (err) {
-      console.log("dasdasdasdasd" + err);
-    }
-  }
-);
-
-Then("user gets {string}", async function (response) {
-  try {
-    assert.equal(this.loginResponse.data, response);
-  } catch (err) {
-    console.log(this.loginResponse + err);
-  }
-});
