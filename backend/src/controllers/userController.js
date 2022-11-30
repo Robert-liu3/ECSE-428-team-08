@@ -38,13 +38,36 @@ export const getUser = async (req, res) => {
  * function to register an user
  */
 export const createUser = async (req, res) => {
+  
   console.log(req.body);
   const userInfo = req.body;
   const newUser = new User(req.body);
+
+
   newUser
-    .save()
-    .then(() => res.send("user added"))
-    .catch((err) => res.json("Error:" + err));
+  .save()
+  .then(async() => {
+
+      return res.send("user added")
+  })
+  .catch((err) => {
+
+  if(err._message=== "User validation failed"){
+    console.log("dasdasd")
+    return res.send("email can't be empty")
+
+  }
+
+  else{
+  return res.send("Please choose another username")
+  }
+  
+  // res.json("error: "+ err)
+  
+});
+  console.log(newUser.email)
+ 
+  
 };
 /**
  *

@@ -4,7 +4,7 @@ let UserSchema = new mongoose.Schema(
   {
     firstName: String,
     lastName: String,
-    email: String,
+    email: {type: String, required: true},
     _id: String,
     profileBio: String,
     image: String,

@@ -63,58 +63,53 @@ When("user {string} enters wrong password with {string}", async function (userNa
   
   });
 
-When("user inputs first name {string}, last name {string}, email {string}, username {string}, and password {string} in the correct fields of the sign up page", async function (firstName, lastName, email, username, password) {
-  try{
-    this.signUpResponse = await axios.post(`http://localhost:5000/createUser`,{data: {firstName: firstName, lastName: lastName, email: email, _id: username, password: password}});
-  }
-  catch (err){
-    console.log(this.signUpResponse +err)
-  }
-});
+// When("user inputs first name {string}, last name {string}, email {string}, username {string}, and password {string} in the correct fields of the sign up page", async function (firstName, lastName, email, username, password) {
 
-  Then("new user gets {string}", async function (response){
-    try{
-      assert.equal(this.signUpResponse.data,response)
-    }
-    catch(err){
-      console.log(this.signUpResponse + err)
-    }
-  });
+//     this.signUpResponse = await axios.post(`http://localhost:5000/createUser`, {firstName: firstName, lastName: lastName, email: email, _id: username, password: password});
+  
+  
+//      console.log(this.signUpResponse )
+  
+// });
+
+//   Then("new user gets {string}", async function (response){
+//     try{
+//       assert.equal(this.signUpResponse.data,response)
+//     }
+//     catch(err){
+//       console.log(this.signUpResponse + err)
+//     }
+//   });
 
 When("user inputs first name {string}, last name {string}, email {string}, taken username {string}, and password {string} in the correct fields of the sign up page", async function(firstName, lastName, email, username, password){
-  try{
-    this.signUpResponse = await axios.post(`http://localhost:5000/createUser`,{data: {firstName: firstName, lastName: lastName, email: email, _id: username, password: password}});
-  }
-  catch (err){
-    console.log(this.signUpResponse +err)
-  }
+
+    this.signUpResponse = await axios.post(`http://localhost:5000/createUser`,{firstName: firstName, lastName: lastName, email: email, _id: username, password: password});
+
+  
+    console.log(this.signUpResponse)
+  
 });
 
   Then("previously used username user created gets {string}", async function (response){
-    try{
+    
       assert.equal(this.signUpResponse.data,response)
-    }
-    catch(err){
-      console.log(this.signUpResponse + err)
-    }
+  
+ 
   });
 
-When("user inputs first name {string}, last name {string}, taken email {string}, username {string}, and password {string} in the correct fields of the sign up page", async function(firstName, lastName, email, username, password){
-  try{
-    this.signUpResponse = await axios.post(`http://localhost:5000/createUser`,{data: {firstName: firstName, lastName: lastName, email: email, _id: username, password: password}});
-  }
-  catch (err){
-    console.log(this.signUpResponse +err)
-  }
+When("user inputs first name {string}, last name {string}, empty email, username {string}, and password {string} in the correct fields of the sign up page", async function(firstName, lastName, username, password){
+
+    this.signUpResponse = await axios.post(`http://localhost:5000/createUser`,{data: {firstName: firstName, lastName: lastName, _id: username, password: password}});
+  
+  
 });
   
-  Then("previously used email user created gets {string}", async function (response){
-    try{
+  Then("the field {string}", async function (response){
+  
       assert.equal(this.signUpResponse.data,response)
-    }
-    catch(err){
-      console.log(this.signUpResponse + err)
-    }
+    
+  
+    
   });
   
   

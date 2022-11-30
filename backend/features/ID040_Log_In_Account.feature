@@ -5,8 +5,8 @@ When user "Noah2" enters password with "123"
 Then user is "Correct Noah2"
 
 Scenario: Login of current user with wrong username but right password
-When wrong user "Jerry" enters right password "123" for another user in the system
-Then wrong user gets "Jerry does not exist"
+When wrong user "Michelle" enters right password "123" for another user in the system
+Then wrong user gets "Michelle does not exist"
 
 Scenario: Login of current user with right username but wrong password
 When user "Noah2" enters wrong password with "bad Password"
