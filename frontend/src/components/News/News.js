@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
-import Heart from "react-heart"
+import React, { useEffect, useState } from "react";
+import Heart from "react-heart";
 
 // Outside function for updating state of articles in containers
 let updateNewsArticles;
@@ -17,8 +17,8 @@ function Header() {
     let news = await axios.get("http://localhost:5000/news/getNews", {
       params: {
         query: query,
-        category: "business"
-      }
+        category: "business",
+      },
     });
     updateNewsArticles(news.data.articles.articles);
   }
@@ -38,11 +38,25 @@ function Header() {
       {/*Search bar*/}
       <div className="input-group mb-3">
         <div className="input-group-prepend">
-          <button id="search_button" className="btn btn-outline-secondary" type="button" onClick={apiCall}>
-            <img src="https://icons.getbootstrap.com/assets/icons/search.svg" alt=""/>
+          <button
+            id="search_button"
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={apiCall}
+          >
+            <img
+              src="https://icons.getbootstrap.com/assets/icons/search.svg"
+              alt=""
+            />
           </button>
         </div>
-        <input id="search_bar_input" type="text" placeholder="Search for specific news..." className="form-control" onChange={s => setQuery(s.target.value)}></input>
+        <input
+          id="search_bar_input"
+          type="text"
+          placeholder="Search for specific news..."
+          className="form-control"
+          onChange={(s) => setQuery(s.target.value)}
+        ></input>
       </div>
     </div>
   );
@@ -51,7 +65,7 @@ function Header() {
 // Functions for adding and removing an article
 async function addToFavorite(articleInfo, userId) {
   // Only add if the button is active (i.e. heart is colored)
-  await axios.post("http://localhost:5000/news/addFavNews",null, {
+  await axios.post("http://localhost:5000/news/addFavNews", null, {
     params: {
       title: articleInfo.articleTitle,
       description: articleInfo.articleDescription,
@@ -59,9 +73,9 @@ async function addToFavorite(articleInfo, userId) {
       author: articleInfo.articleAuthor,
       url: articleInfo.articleUrl,
       imageUrl: articleInfo.articleImage,
-      userId: userId
-    }
-  })
+      userId: userId,
+    },
+  });
 }
 
 async function removeFromFavorite(bookmarkId, userId) {
@@ -83,7 +97,7 @@ const LargeArticleContainer = (props) => {
     articleAuthor: props.author,
     articleUrl: props.articleUrl,
     articleImage: props.imageUrl,
-  }
+  };
 
   const [active, setActive] = useState(false)
 
@@ -91,26 +105,37 @@ const LargeArticleContainer = (props) => {
     <div className="post mb-3 pb-3 border-bottom">
       <div className="post-media">
         <a href={articleInfo.articleUrl}>
-          <img className="img-fluid" src={articleInfo.articleImage}  alt=""/>
+          <img className="img-fluid" src={articleInfo.articleImage} alt="" />
         </a>
       </div>
       <div className="post-header">
-        <div className="post-title h4 font-weight-bold">{articleInfo.articleTitle}</div>
+        <div className="post-title h4 font-weight-bold">
+          {articleInfo.articleTitle}
+        </div>
       </div>
       <div className="post-body">
         <div className="post-content">{articleInfo.articleDescription}</div>
         <div className="post-date">
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'/>
+          <link
+            href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+            rel="stylesheet"
+            type="text/css"
+          />
           <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
         </div>
         <div style={{ display: "flex", width: "1.5rem" }}>
-          <Heart isActive={active} onClick={() => {
-            // Only sets active once for now
-            if (!active) {
-              setActive(true);
-              addToFavorite(articleInfo, userId).catch(error => console.log(error));
-            }
-          }}/>
+          <Heart
+            isActive={active}
+            onClick={() => {
+              // Only sets active once for now
+              if (!active) {
+                setActive(true);
+                addToFavorite(articleInfo, userId).catch((error) =>
+                  console.log(error)
+                );
+              }
+            }}
+          />
         </div>
       </div>
     </div>
@@ -126,9 +151,9 @@ const SmallArticleContainer = (props) => {
     articleAuthor: props.author,
     articleUrl: props.articleUrl,
     articleImage: props.imageUrl,
-  }
+  };
 
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(false);
 
   return (
     <div className="post mb-3 pb-3 border-bottom">
@@ -136,13 +161,20 @@ const SmallArticleContainer = (props) => {
         <div className="col-auto">
           <div className="post-media ">
             <a href={articleInfo.articleUrl}>
-              <img className="img-fluid" src={articleInfo.articleImage} width="100"  alt=""/>
+              <img
+                className="img-fluid"
+                src={articleInfo.articleImage}
+                width="100"
+                alt=""
+              />
             </a>
           </div>
         </div>
         <div className="col">
           <div className="post-header">
-            <div className="post-title h5 font-weight-bold">{articleInfo.articleTitle}</div>
+            <div className="post-title h5 font-weight-bold">
+              {articleInfo.articleTitle}
+            </div>
           </div>
           <div className="post-body">
             <div className="post-content">{articleInfo.articleDescription}</div>
@@ -150,13 +182,18 @@ const SmallArticleContainer = (props) => {
               <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
             </div>
             <div style={{ display: "flex", width: "1.5rem" }}>
-              <Heart isActive={active} onClick={() => {
-                // Only sets active once for now
-                if (!active) {
-                  setActive(true);
-                  addToFavorite(articleInfo, userId).catch(error => console.log(error));
-                }
-              }}/>
+              <Heart
+                isActive={active}
+                onClick={() => {
+                  // Only sets active once for now
+                  if (!active) {
+                    setActive(true);
+                    addToFavorite(articleInfo, userId).catch((error) =>
+                      console.log(error)
+                    );
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
@@ -235,7 +272,7 @@ export default function News() {
 
   useEffect(() => {
     updateNewsArticles = localUpdateNewsArticles; // pass setter to outside function
-  }, [])
+  }, []);
 
   // Split articles into sets that need to be displayed
   const topArticles = newsArticles.slice(0, 4);
@@ -257,7 +294,10 @@ export default function News() {
 
   return (
     <>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+      <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      />
 
       <section className="section">
         <div className="container">

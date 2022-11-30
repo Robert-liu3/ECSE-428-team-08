@@ -9,6 +9,9 @@ export default function NavBar() {
       </Link>
       <ul>
         <CustomTab to="/news">News</CustomTab>
+        <CustomTab to="/login">Login</CustomTab>
+        <CustomTab to="/signup">Sign Up</CustomTab>
+        <CustomTab to="/friendList">Friends List</CustomTab>
       </ul>
     </nav>
   );

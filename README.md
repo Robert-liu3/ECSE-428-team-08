@@ -44,6 +44,10 @@ npm install --save-dev jest
 
 npm install supertest
 
+npm install @cucumber/cucumber
+
+Also make sure the backend is running before running the test command for the Gherkin scenarios.
+
 testing frontend
 
 in ./frontend
