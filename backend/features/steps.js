@@ -8,18 +8,19 @@ import axios from 'axios'
 
 //////// NEWS ////////
 
-// Retrieve news from newsapi
-When(/^the user asks for news about (.*)$/, async function (company) {
+// Retrieve news from specific source
+When(/^the user asks for news from the publisher (.*)$/, async function (source) {
   this.newsResponse = await axios.get("http://localhost:5000/news/getNews", {
     params: {
-      query: company,
-      category: "business"
+      query: "",
+      sources: source
     }
   });
 });
 
-Then(/^the user should receive news about (.*)$/, function (expected) {
-  assert(this.newsResponse.data.articles.articles[0].title.includes(expected));
+Then(/^the user should receive news by the publisher (.*)$/, function (publisher) {
+  this.source = this.newsResponse.data.articles.articles[0].source;
+  assert(this.source.name.includes(publisher))
 });
 
 // Favorite a news article
