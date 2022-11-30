@@ -80,3 +80,8 @@ export const login = async (req, res) => {
 
 };
 
+export const deleteUser = async (req, res) => {
+  const id = req.query['id'];
+  await user.findByIdAndDelete(id).then(() => res.json("User deleted."));
+}
+
