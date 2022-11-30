@@ -25,14 +25,12 @@ const setupChromeDriver = async () => {
 
 // Configure the feature file for testing with Jest Cucumber
 const feature = jestCucumber.loadFeature(
-  "Features/ID054_Open-Close-Market-Watchlist.feature"
+  "./src/selenium_tests/Features/ID054_Open-Close-Market-Watchlist.feature"
 );
-
-console.log("Feature file:", feature);
 
 jestCucumber.defineFeature(feature, (test) => {
   // TEST 1: Load watchlist when navigating to Home Page
-  test("openWatchlistWhenNavigatingToHomePage", async ({
+  test("Load watchlist when navigating to Home Page", async ({
     given,
     when,
     then,
@@ -82,7 +80,7 @@ jestCucumber.defineFeature(feature, (test) => {
   });
 
   // TEST 2: Close the watchlist
-  test("closeWatchlist", async ({ given, when, then }) => {
+  test("Close the watchlist", async ({ given, when, then }) => {
     let driver;
 
     given("the watchlist is open", async () => {
@@ -124,7 +122,6 @@ jestCucumber.defineFeature(feature, (test) => {
         .then(async (el) => {
           await driver.actions().click(el).perform(); // Close watchlist
         });
-
       await driver.sleep(2000); // wait for the page to process the click
     });
 
@@ -143,14 +140,12 @@ jestCucumber.defineFeature(feature, (test) => {
           isWatchlistClosed = true; // the watchlist element was not found, thus we deduce that the watchlist element was closed
         }
         expect(isWatchlistClosed).toBe(true);
-
         await driver.quit();
       }
     );
   });
-
   // TEST 3: Close and reopen the watchlist
-  test("reopenWatchlist", async ({ given, when, then }) => {
+  test("Close and reopen the watchlist", async ({ given, when, then }) => {
     let driver;
 
     given("the watchlist is open", async () => {

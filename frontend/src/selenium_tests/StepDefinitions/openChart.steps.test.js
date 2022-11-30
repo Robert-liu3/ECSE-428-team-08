@@ -25,13 +25,11 @@ const setupChromeDriver = async () => {
 
 // Configure the feature file for testing with Jest Cucumber
 const feature = jestCucumber.loadFeature(
-  "Features/ID001_Open_Market_Chart.feature"
+  './src/selenium_tests/Features/ID001_Open_Market_Chart.feature'
 );
 
-console.log("Feature file:", feature);
-
 jestCucumber.defineFeature(feature, (test) => {
-  test("getTicker", async ({ given, when, then }) => {
+  test("Open Market Chart", async ({ given, when, then }) => {
     let driver;
 
     given("the customer is on the Home Page of the website", async () => {
@@ -42,7 +40,7 @@ jestCucumber.defineFeature(feature, (test) => {
       driver.sleep(1000);
     });
 
-    then("a market chart of {symbol} is displayed", async (symbol) => {
+    then("a market chart of AAPL is displayed", async (symbol) => {
       await driver.wait(
         until.elementLocated(
           By.xpath("//iframe[starts-with(@id,'tradingview_')]")
@@ -72,7 +70,7 @@ jestCucumber.defineFeature(feature, (test) => {
           ticker = await el.getText();
         });
 
-      expect(ticker).toBe(symbol);
+      expect(ticker).toBe('AAPL');
       await driver.quit();
     });
   });

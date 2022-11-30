@@ -25,18 +25,19 @@ const setupChromeDriver = async () => {
 
 // Configure the feature file for testing with Jest Cucumber
 const feature = jestCucumber.loadFeature(
-  "Features/ID055_Open-Chart-Of-Symbol-From-Watchlist.feature"
+  "./src/selenium_tests/Features/ID055_Open-Chart-Of-Symbol-From-Watchlist.feature"
 );
-
-console.log("Feature file:", feature);
 
 jestCucumber.defineFeature(feature, (test) => {
   let driver;
 
-  test("selectSymbolFromWatchlist", async ({ given, when, then }) => {
-    driver = await setupChromeDriver();
-
-    given("the watchlist is open and displayed to the user", async () => {
+  test("Open the chart of a symbol in the watchlist", ({
+    given,
+    when,
+    then,
+  }) => {
+    given('the watchlist is open and displayed to the user', async () => {
+      driver = await setupChromeDriver();
       // Enter the chart frame
       await driver.wait(
         until.elementLocated(
@@ -52,47 +53,37 @@ jestCucumber.defineFeature(feature, (test) => {
         );
     });
 
-    when(
-      "the User selects {symbol_from_watchlist} from the watchlist",
-      async (symbol_from_watchlist) => {
-        // Get the watchlist and click on the symbol {symbol_from_watchlist} inside the watchlist
-        await driver
-          .wait(
-            until.elementLocated(
-              By.xpath("//span[contains(text(), ", symbol_from_watchlist, ")]")
-            )
-          )
-          .then(async (el) => {
-            await driver.actions().click(el).perform();
-          });
+    when("the User selects NQ1! from the watchlist", async () => {
+      // Get the watchlist and click on the symbol {symbol_from_watchlist} inside the watchlist
+      await driver
+        .wait(until.elementLocated(By.xpath("//span[contains(text(), 'NQ1!')]")))
+        .then(async (el) => {
+          await driver.actions().click(el).perform();
+        });
 
-        await driver.sleep(5000); // wait for the page to load
-      }
-    );
+      await driver.sleep(5000); // wait for the page to load
+    });
 
-    then(
-      "a chart of {symbol_from_watchlist} is displayed",
-      async (symbol_from_watchlist) => {
-        // Verify that the correct ticker symbol has been set
-        let ticker;
-        await driver
-          .wait(
-            until.elementIsVisible(
-              driver.findElement(
-                By.xpath(
-                  "//div[starts-with(@id,'header-toolbar-symbol-search')]//div[starts-with(@class,'js-button-text text')]"
-                )
+    then("a chart of NQ1! is displayed", async (arg0) => {
+      // Verify that the correct ticker symbol has been set
+      let ticker;
+      await driver
+        .wait(
+          until.elementIsVisible(
+            driver.findElement(
+              By.xpath(
+                "//div[starts-with(@id,'header-toolbar-symbol-search')]//div[starts-with(@class,'js-button-text text')]"
               )
             )
           )
-          .then(async (el) => {
-            ticker = await el.getText();
-          });
+        )
+        .then(async (el) => {
+          ticker = await el.getText();
+        });
 
-        expect(ticker).toBe(symbol_from_watchlist);
+      expect(ticker).toBe("NQ1!");
 
-        await driver.quit();
-      }
-    );
+      await driver.quit();
+    });
   });
 });
