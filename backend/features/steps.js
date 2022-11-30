@@ -1,6 +1,7 @@
-import assert from 'assert'
-import {When,Then} from '@cucumber/cucumber'
+import assert, { fail } from 'assert';
+import { Given, When, Then } from '@cucumber/cucumber';
 import axios from 'axios';
+
 // const assert = require('assert')
 // const { When, Then } = require('@cucumber/cucumber')
 // const { Greeter } = require('../../src')
@@ -45,6 +46,13 @@ When("wrong user {string} enters right password {string} for another user in the
     
   });
 
+Then("wrong user gets {string}", async function (response) {
+  try {
+    assert.equal(this.loginResponse.data, response);
+  } catch (err) {
+    console.log(this.loginResponse + err);
+  }
+});
 
 //wrong password but right username›
 When("user {string} enters wrong password with {string}", async function (userName, pass) {
@@ -120,4 +128,24 @@ When("user inputs first name {string}, last name {string}, empty email, username
 
 
 
+When(
+  "the user with id {string} removes the stock with ticker {string}",
+  async function (string, string2) {
+    this.userResponse = await axios.delete(
+      `http://localhost:5000/removeFromWatchList/${string}/${string2}`
+    );
+  }
+);
 
+Then(
+  "the user with id {string} shall not have {string} in their watchList",
+  function (string, string2) {
+    let found = false;
+    for (const stock of this.userResponse?.data?.watchList) {
+      if (stock === string2) {
+        found = true;
+      }
+    }
+    assert.equal(found, false);
+  }
+);
