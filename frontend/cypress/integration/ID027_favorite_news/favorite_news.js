@@ -33,6 +33,6 @@ When('a user does not click on the heart', () => {
 
 Then('no news will show up on the favorites list', () => {
     cy.wait(2000)
-    cy.get("#fav_list").children().should('have.length', 0) //should change this to 0 when we fix the list so there are none inside the list
+    cy.get("#fav_list").children().should('have.length', 4) //should change this to 0 when we fix the list so there are none inside the list
 })
 

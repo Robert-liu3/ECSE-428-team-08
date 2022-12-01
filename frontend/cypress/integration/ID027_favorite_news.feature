@@ -6,7 +6,7 @@ To be able to find it later
 Background:
 Given a user is on the news page
 
-Scenario: Favorite an article and it appears on the favorites list
+Scenario: Favorite an article and the heart should be red
 When a user clicks on the heart
 Then the heart should be red
 
