@@ -1,1 +1,1 @@
-jest.setTimeout(30000)  // 15-second timeout for tests
+jest.setTimeout(150000)  // 150-second timeout for tests

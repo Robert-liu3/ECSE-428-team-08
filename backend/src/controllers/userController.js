@@ -37,13 +37,36 @@ export const getUser = async (req, res) => {
  * function to register an user
  */
 export const createUser = async (req, res) => {
+
   console.log(req.body);
   const userInfo = req.body;
   const newUser = new User(req.body);
+
+
   newUser
-    .save()
-    .then(() => res.send("user added"))
-    .catch((err) => res.json("Error:" + err));
+  .save()
+  .then(async() => {
+
+      return res.send("user added")
+  })
+  .catch((err) => {
+
+  if(err._message=== "User validation failed"){
+    console.log("dasdasd")
+    return res.send("email can't be empty")
+
+  }
+
+  else{
+  return res.send("Please choose another username")
+  }
+
+  // res.json("error: "+ err)
+
+});
+  console.log(newUser.email)
+
+
 };
 /**
  *
@@ -55,10 +78,12 @@ export const createUser = async (req, res) => {
 export const login = async (req, res) => {
   console.log(req.params.username, req.params.password);
   const userId = req.params.username;
-  await User.find({ userId })
-    // console.log(User.find({ userId }));
+  await User.findById( userId)
     .then((info) => {
-      if (info[0].password == req.params.password) {
+      if (!info) {
+        return res.send( userId + " does not exist");
+      }
+      if (info.password == req.params.password) {
         res.send("Correct " + userId);
       } else {
         res.send("Wrong password or Username");
@@ -156,3 +181,9 @@ export const removeFromWatchList = async (req, res) => {
     res.json(userToUpdate);
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const id = req.query['id'];
+  await User.findByIdAndDelete(id).then(() => res.json("User deleted."));
+}
+

@@ -4,7 +4,7 @@ let UserSchema = new mongoose.Schema(
   {
     firstName: String,
     lastName: String,
-    email: String,
+    email: {type: String, required: true},
     _id: String,
     profileBio: String,
     image: String,
@@ -13,6 +13,7 @@ let UserSchema = new mongoose.Schema(
     watchList: [String],
     status: Boolean, // true-> login, false-> not login
     following: [{ type: mongoose.Schema.Types.String, ref: "User" }],
+    likedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: "ArticleBookmark" }]
   },
 
   {

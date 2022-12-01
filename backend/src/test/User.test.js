@@ -1,11 +1,9 @@
-import { app } from "../index.js";
-import request from "supertest";
 import {app} from "../index.js"
 import request from "supertest"
 
-test("getAllusers", async () => {
-  const response = await request(app).get("/getUsers");
-  expect(response.statusCode).toBe(200);
+test("getAllusers",async () => {
+    const response = await request(app).get("/getUsers");
+    expect(response.statusCode).toBe(200);
 });
 
 test("loginUser", async () => {
