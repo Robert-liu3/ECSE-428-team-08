@@ -2,6 +2,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 const jestSetup = require("../../jest.setup");
 const jestCucumber = require("jest-cucumber");
+const chromedriver = require ('chromedriver');
 
 const screen_obj = {
   width: 1920,

@@ -1,4 +1,5 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
+const chromedriver = require ('chromedriver');
 const chrome = require("selenium-webdriver/chrome");
 const jestSetup = require("../../jest.setup");
 const jestCucumber = require("jest-cucumber");
