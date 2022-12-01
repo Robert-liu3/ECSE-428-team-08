@@ -363,23 +363,6 @@ export default function News() {
                         ))}
                       </ul>
                     </div>
-                    <ul id="fav_list" style={{ listStyleType: "none" }}>
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-
-                      <li>
-                        <FavoritedNews />
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
