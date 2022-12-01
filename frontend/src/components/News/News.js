@@ -123,7 +123,7 @@ const LargeArticleContainer = (props) => {
           />
           <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
         </div>
-        <div style={{ display: "flex", width: "1.5rem" }}>
+        <div id="heart_el" style={{ display: "flex", width: "1.5rem" }}>
           <Heart
             isActive={active}
             onClick={() => {
@@ -181,7 +181,7 @@ const SmallArticleContainer = (props) => {
             <div className="post-date">
               <i className="fa fa-clock-o" aria-hidden="true"></i> 2 hours ago
             </div>
-            <div style={{ display: "flex", width: "1.5rem" }}>
+            <div id="heart_el" style={{ display: "flex", width: "1.5rem" }}>
               <Heart
                 isActive={active}
                 onClick={() => {
@@ -363,6 +363,23 @@ export default function News() {
                         ))}
                       </ul>
                     </div>
+                    <ul id="fav_list" style={{ listStyleType: "none" }}>
+                      <li>
+                        <FavoritedNews />
+                      </li>
+
+                      <li>
+                        <FavoritedNews />
+                      </li>
+
+                      <li>
+                        <FavoritedNews />
+                      </li>
+
+                      <li>
+                        <FavoritedNews />
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
