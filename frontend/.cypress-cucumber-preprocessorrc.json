@@ -1,0 +1,11 @@
+{
+    "json": {
+        "enabled": false,
+        "output": "jsonreport/test.json"
+    },
+    "stepDefinitions": [
+        "[filepath]/**/*.js",
+        "[filepath]/.js",
+        "cypress/integration/**/*.js"
+    ]
+}
